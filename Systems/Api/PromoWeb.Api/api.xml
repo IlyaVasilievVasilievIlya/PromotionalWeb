@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PromoWeb.Api</name>
+    </assembly>
+    <members>
+        <member name="T:PromoWeb.Api.Configuration.CorsConfiguration">
+            <summary>
+            CORS configuration
+            </summary>
+        </member>
+        <member name="M:PromoWeb.Api.Configuration.CorsConfiguration.AddAppCors(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add CORS
+            </summary>
+            <param name="services">Services collection</param>
+        </member>
+        <member name="M:PromoWeb.Api.Configuration.CorsConfiguration.UseAppCors(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Use service
+            </summary>
+            <param name="app">Application</param>
+        </member>
+        <member name="T:PromoWeb.Api.Configuration.LoggerConfiguration">
+            <summary>
+            Logger Configuration
+            </summary>
+        </member>
+        <member name="M:PromoWeb.Api.Configuration.LoggerConfiguration.AddAppLogger(Microsoft.AspNetCore.Builder.WebApplicationBuilder)">
+            <summary>
+            Add logger
+            </summary>
+        </member>
+        <member name="T:PromoWeb.Api.Configuration.SwaggerConfiguration">
+            <summary>
+            Swagger configuration
+            </summary>
+        </member>
+        <member name="M:PromoWeb.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,PromoWeb.Services.Settings.IdentitySettings,PromoWeb.Services.Settings.SwaggerSettings)">
+            <summary>
+            Add OpenAPI for API
+            </summary>
+            <param name="services">Services collection</param>
+            <param name="identitySettings"></param>
+            <param name="swaggerSettings"></param>
+        </member>
+        <member name="M:PromoWeb.Api.Configuration.SwaggerConfiguration.UseAppSwagger(Microsoft.AspNetCore.Builder.WebApplication)">
+            <summary>
+            Start OpenAPI UI
+            </summary>
+            <param name="app">Web application</param>
+        </member>
+        <member name="T:PromoWeb.Api.Configuration.VersioningConfiguration">
+            <summary>
+            Versioning configuration
+            </summary>
+        </member>
+        <member name="M:PromoWeb.Api.Configuration.VersioningConfiguration.AddAppVersioning(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add version support for API
+            </summary>
+            <param name="services">Services collection</param>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.AnswersController">
+            <summary>
+            Answers controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AnswersController.GetAnswers(System.Int32,System.Int32)">
+            <summary>
+            Get answers
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of AnswerResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AnswersController.GetAnswerById(System.Int32)">
+            <summary>
+            Get answers by Id
+            </summary>
+            <response code="200">AnswerResponse></response>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.AppInfosController">
+            <summary>
+            AppInfos controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AppInfosController.GetAppInfos(System.Int32,System.Int32)">
+            <summary>
+            Get appInfos
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of AppInfoResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AppInfosController.GetAppInfoById(System.Int32)">
+            <summary>
+            Get appInfos by Id
+            </summary>
+            <response code="200">AppInfoResponse></response>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.ContactsController">
+            <summary>
+            Contacts controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ContactsController.GetContacts(System.Int32,System.Int32)">
+            <summary>
+            Get contacts
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of ContactResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ContactsController.GetContactById(System.Int32)">
+            <summary>
+            Get contacts by Id
+            </summary>
+            <response code="200">ContactResponse></response>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.ImagesController">
+            <summary>
+            Images controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ImagesController.GetImages(System.Int32,System.Int32)">
+            <summary>
+            Get images
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of ImageResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ImagesController.GetImageById(System.Int32)">
+            <summary>
+            Get images by Id
+            </summary>
+            <response code="200">ImageResponse></response>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.LinksController">
+            <summary>
+            Links controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.LinksController.GetLinks(System.Int32,System.Int32)">
+            <summary>
+            Get links
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of LinkResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.LinksController.GetLinkById(System.Int32)">
+            <summary>
+            Get links by Id
+            </summary>
+            <response code="200">LinkResponse></response>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.QuestionsController">
+            <summary>
+            Questions controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.QuestionsController.GetQuestions(System.Int32,System.Int32)">
+            <summary>
+            Get questions
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of QuestionResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.QuestionsController.GetQuestionById(System.Int32)">
+            <summary>
+            Get questions by Id
+            </summary>
+            <response code="200">QuestionResponse></response>
+        </member>
+        <member name="T:PromoWeb.Api.Controllers.SectionsController">
+            <summary>
+            Sections controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.SectionsController.GetSections(System.Int32,System.Int32)">
+            <summary>
+            Get sections
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of SectionResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.SectionsController.GetSectionById(System.Int32)">
+            <summary>
+            Get sections by Id
+            </summary>
+            <response code="200">SectionResponse></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.TestController.GetData1">
+            <summary>
+            Get data 1
+            </summary>
+            <response code="200">String items</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.TestController.GetData1(System.String)">
+            <summary>
+            Get data 2
+            </summary>
+            <response code="200">String items</response>
+        </member>
+    </members>
+</doc>

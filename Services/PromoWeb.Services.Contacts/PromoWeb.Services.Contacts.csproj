@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\PromoWeb.Context.Entities\PromoWeb.Context.Entities.csproj" />
+    <ProjectReference Include="..\..\Data\PromoWeb.Context\PromoWeb.Context.csproj" />
+    <ProjectReference Include="..\..\Shared\PromoWeb.Common\PromoWeb.Common.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>    <DocumentationFile>api.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="Middlewares\" />
+    <Folder Include="Pages\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+    <PackageReference Include="Serilog.Expressions" Version="3.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Data\Migrations\PromoWeb.Context.MigrationsPostgreSQL\PromoWeb.Context.MigrationsPostgreSQL.csproj" />
+    <ProjectReference Include="..\..\..\Data\PromoWeb.Context.Entities\PromoWeb.Context.Entities.csproj" />
+    <ProjectReference Include="..\..\..\Data\PromoWeb.Context\PromoWeb.Context.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Questions\PromoWeb.Services.Questions.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.AppInfos\PromoWeb.Services.AppInfos.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Contacts\PromoWeb.Services.Contacts.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Images\PromoWeb.Services.Images.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Links\PromoWeb.Services.Links.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Answers\PromoWeb.Services.Answers.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Sections\PromoWeb.Services.Sections.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Settings\PromoWeb.Services.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Shared\PromoWeb.Common\PromoWeb.Common.csproj" />
+  </ItemGroup>
+
+</Project>
