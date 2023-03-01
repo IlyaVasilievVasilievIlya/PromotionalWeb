@@ -5,6 +5,8 @@ using PromoWeb.Common.Responses;
 using PromoWeb.Services.AppInfos;
 using Microsoft.AspNetCore.Mvc;
 using PromoWeb.Api.AppInfos;
+using Microsoft.AspNetCore.Authorization;
+using PromoWeb.Common.Security;
 
 
 /// <summary>
@@ -19,6 +21,7 @@ using PromoWeb.Api.AppInfos;
 [Route("api/v{version:apiVersion}/appInfos")]
 [ApiController]
 [ApiVersion("1.0")]
+[Authorize]
 public class AppInfosController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -40,6 +43,7 @@ public class AppInfosController : ControllerBase
     /// <response code="200">List of AppInfoResponses</response>
     [ProducesResponseType(typeof(IEnumerable<AppInfoResponse>), 200)]
     [HttpGet("")]
+    [Authorize(Policy = AppScopes.AppInfoRead)]
     public async Task<IEnumerable<AppInfoResponse>> GetAppInfos([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var appInfos = await appInfoService.GetAppInfos(offset, limit);
@@ -54,6 +58,7 @@ public class AppInfosController : ControllerBase
     /// <response code="200">AppInfoResponse></response>
     [ProducesResponseType(typeof(AppInfoResponse), 200)]
     [HttpGet("{id}")]
+    [Authorize(Policy = AppScopes.AppInfoRead)]
     public async Task<AppInfoResponse> GetAppInfoById([FromRoute] int id)
     {
         var appInfo = await appInfoService.GetAppInfo(id);
@@ -63,6 +68,7 @@ public class AppInfosController : ControllerBase
     }
 
     [HttpPost("")]
+    [Authorize(Policy = AppScopes.AppInfoWrite)]
     public async Task<AppInfoResponse> AddAppInfo([FromBody] AddAppInfoRequest request)
     {
         var model = mapper.Map<AddAppInfoModel>(request);
@@ -73,6 +79,7 @@ public class AppInfosController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = AppScopes.AppInfoWrite)]
     public async Task<IActionResult> UpdateAppInfo([FromRoute] int id, [FromBody] UpdateAppInfoRequest request)
     {
         var model = mapper.Map<UpdateAppInfoModel>(request);
@@ -82,6 +89,7 @@ public class AppInfosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = AppScopes.AppInfoWrite)]
     public async Task<IActionResult> DeleteAppInfo([FromRoute] int id)
     {
         await appInfoService.DeleteAppInfo(id);

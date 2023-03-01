@@ -5,6 +5,8 @@ using PromoWeb.Common.Responses;
 using PromoWeb.Services.Sections;
 using Microsoft.AspNetCore.Mvc;
 using PromoWeb.Api.Sections;
+using Microsoft.AspNetCore.Authorization;
+using PromoWeb.Common.Security;
 
 
 /// <summary>
@@ -19,6 +21,7 @@ using PromoWeb.Api.Sections;
 [Route("api/v{version:apiVersion}/sections")]
 [ApiController]
 [ApiVersion("1.0")]
+[Authorize]
 public class SectionsController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -41,6 +44,7 @@ public class SectionsController : ControllerBase
     /// <response code="200">List of SectionResponses</response>
     [ProducesResponseType(typeof(IEnumerable<SectionResponse>), 200)]
     [HttpGet("")]
+    [Authorize(Policy = AppScopes.SectionRead)]
     public async Task<IEnumerable<SectionResponse>> GetSections([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var sections = await sectionService.GetSections(offset, limit);
@@ -55,6 +59,7 @@ public class SectionsController : ControllerBase
     /// <response code="200">SectionResponse></response>
     [ProducesResponseType(typeof(SectionResponse), 200)]
     [HttpGet("{id}")]
+    [Authorize(Policy = AppScopes.SectionRead)]
     public async Task<SectionResponse> GetSectionById([FromRoute] int id)
     {
         var section = await sectionService.GetSection(id);
@@ -64,6 +69,7 @@ public class SectionsController : ControllerBase
     }
 
     [HttpPost("")]
+    [Authorize(Policy = AppScopes.SectionWrite)]
     public async Task<SectionResponse> AddSection([FromBody] AddSectionRequest request)
     {
         var model = mapper.Map<AddSectionModel>(request);
@@ -74,6 +80,7 @@ public class SectionsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = AppScopes.SectionWrite)]
     public async Task<IActionResult> UpdateSection([FromRoute] int id, [FromBody] UpdateSectionRequest request)
     {
         var model = mapper.Map<UpdateSectionModel>(request);
@@ -83,6 +90,7 @@ public class SectionsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = AppScopes.SectionWrite)]
     public async Task<IActionResult> DeleteSection([FromRoute] int id)
     {
         await sectionService.DeleteSection(id);

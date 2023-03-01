@@ -4,14 +4,15 @@ using AutoMapper;
 using PromoWeb.Context.Entities;
 using FluentValidation;
 using PromoWeb.Services.Images;
+using PromoWeb.Common.Extensions;
 
 public class AddImageRequest
 {
+    public string ImageName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
     public int AppInfoId { get; set; }
-    public byte[] Bytes { get; set; }
-    public string FileExtension { get; set; } = string.Empty;
+    public IFormFile Image { get; set; }
 }
 
 public class AddImageRequestValidator : AbstractValidator<AddImageRequest>
@@ -22,9 +23,23 @@ public class AddImageRequestValidator : AbstractValidator<AddImageRequest>
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(100).WithMessage("Description is long.");
 
-        RuleFor(x => x.FileExtension)
-            .NotEmpty().WithMessage("Extension is required.")
-            .MaximumLength(6).WithMessage("Extension field is long.");
+        RuleFor(x => x.ImageName)
+            .NotEmpty().WithMessage("Image name is required.")
+            .MaximumLength(100).WithMessage("Image name is long.");
+
+        RuleFor(x => x.Image) //надо только изображения(jpg, png, ...)
+            .NotEmpty().WithMessage("Image is required");
+
+        RuleFor(x => x.Image.Length)
+            .NotEmpty()
+            .When(x => x.Image is not null)
+            .WithMessage("Image content required");
+
+        RuleFor(x => x.Image.ContentType)
+            
+            .Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
+            .When(x => x.Image is not null)
+            .WithMessage("Only images allowed");
     }
 }
 

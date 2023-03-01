@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{E040E0EF-0FA9-4B8A-9443-429582BA2876}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{7DB06E10-7317-4C37-BD27-FABECC425A75}"
+	ProjectSection(SolutionItems) = preProject
+		Systems\Api\PromoWeb.Api\Program.cs = Systems\Api\PromoWeb.Api\Program.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Api", "Systems\Api\PromoWeb.Api\PromoWeb.Api.csproj", "{F992C211-CA78-44D9-B6D0-9DD097F1CC10}"
 EndProject
@@ -46,6 +49,22 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Services.Sections", "Services\PromoWeb.Services.Sections\PromoWeb.Services.Sections.csproj", "{EBBE0783-B6C4-42EB-A436-6227B4570511}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Services.Images", "Services\PromoWeb.Services.Images\PromoWeb.Services.Images.csproj", "{6C152029-714B-4CD2-95B5-56D8DC9CD2AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Services.RabbitMq", "Services\PromoWeb.Services.RabbitMq\PromoWeb.Services.RabbitMq.csproj", "{9C07BF7B-D263-426F-8CC3-6AB4F637CC6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Services.Actions", "Services\PromoWeb.Services.Actions\PromoWeb.Services.Actions.csproj", "{992A216C-5270-4647-824B-C95FD8871AE2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Services.EmailSender", "Services\PromoWeb.Services.EmailSender\PromoWeb.Services.EmailSender.csproj", "{62B1F5F6-7041-4D85-ABBD-C3487C919698}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Consts", "Shared\PromoWeb.Consts\PromoWeb.Consts.csproj", "{EE0A1D2B-9355-407F-AB82-6A3ACD683878}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{5ECEDF21-9CD8-4822-A928-B5CB94923DA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Worker", "Systems\Worker\PromoWeb.Worker\PromoWeb.Worker.csproj", "{757AD077-191D-455F-ADE8-2B9702482670}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{57F6E4F8-33B7-4833-8FFD-5DF6530AF030}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Services.UserAccount", "Services\PromoWeb.Services.UserAccount\PromoWeb.Services.UserAccount.csproj", "{6C366ED1-8CF6-4FEF-AAD7-390EA0484482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +132,34 @@ Global
 		{6C152029-714B-4CD2-95B5-56D8DC9CD2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C152029-714B-4CD2-95B5-56D8DC9CD2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C152029-714B-4CD2-95B5-56D8DC9CD2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C07BF7B-D263-426F-8CC3-6AB4F637CC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C07BF7B-D263-426F-8CC3-6AB4F637CC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C07BF7B-D263-426F-8CC3-6AB4F637CC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C07BF7B-D263-426F-8CC3-6AB4F637CC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992A216C-5270-4647-824B-C95FD8871AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992A216C-5270-4647-824B-C95FD8871AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992A216C-5270-4647-824B-C95FD8871AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992A216C-5270-4647-824B-C95FD8871AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B1F5F6-7041-4D85-ABBD-C3487C919698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B1F5F6-7041-4D85-ABBD-C3487C919698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B1F5F6-7041-4D85-ABBD-C3487C919698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B1F5F6-7041-4D85-ABBD-C3487C919698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0A1D2B-9355-407F-AB82-6A3ACD683878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0A1D2B-9355-407F-AB82-6A3ACD683878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0A1D2B-9355-407F-AB82-6A3ACD683878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0A1D2B-9355-407F-AB82-6A3ACD683878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{757AD077-191D-455F-ADE8-2B9702482670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{757AD077-191D-455F-ADE8-2B9702482670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{757AD077-191D-455F-ADE8-2B9702482670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{757AD077-191D-455F-ADE8-2B9702482670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57F6E4F8-33B7-4833-8FFD-5DF6530AF030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57F6E4F8-33B7-4833-8FFD-5DF6530AF030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57F6E4F8-33B7-4833-8FFD-5DF6530AF030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57F6E4F8-33B7-4833-8FFD-5DF6530AF030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C366ED1-8CF6-4FEF-AAD7-390EA0484482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C366ED1-8CF6-4FEF-AAD7-390EA0484482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C366ED1-8CF6-4FEF-AAD7-390EA0484482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C366ED1-8CF6-4FEF-AAD7-390EA0484482}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +183,13 @@ Global
 		{8358DCF7-0D43-4892-8E93-2CBA3DCF50A5} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
 		{EBBE0783-B6C4-42EB-A436-6227B4570511} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
 		{6C152029-714B-4CD2-95B5-56D8DC9CD2AE} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
+		{9C07BF7B-D263-426F-8CC3-6AB4F637CC6F} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
+		{992A216C-5270-4647-824B-C95FD8871AE2} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
+		{62B1F5F6-7041-4D85-ABBD-C3487C919698} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
+		{EE0A1D2B-9355-407F-AB82-6A3ACD683878} = {A85C6952-194D-48E9-8BD9-E341C150AA47}
+		{5ECEDF21-9CD8-4822-A928-B5CB94923DA5} = {CC9D92A0-B5A0-4D43-9EEC-BAA5A9BEDDDD}
+		{757AD077-191D-455F-ADE8-2B9702482670} = {5ECEDF21-9CD8-4822-A928-B5CB94923DA5}
+		{6C366ED1-8CF6-4FEF-AAD7-390EA0484482} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07AAE465-DF07-4CDC-825A-6D9B6DA68405}

@@ -3,11 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace PromoWeb.Services.Settings
 {
-    public static class Bootstrapper //загрузить в контейнер
+    public static class Bootstrapper
     {
         public static IServiceCollection AddMainSettings(this IServiceCollection services, IConfiguration configuration = null)
         {
-            var settings = PromoWeb.Settings.Settings.Load<MainSettings>("Main", configuration); //<куда парсим>(ключ для значения json, источник откуда json взять)
+            var settings = PromoWeb.Settings.Settings.Load<MainSettings>("Main", configuration);
 
             services.AddSingleton(settings);
 

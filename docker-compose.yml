@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+
+  promoweb_postgresql:
+    image: postgres:14.1
+
+  promoweb_rabbitmq:
+    image: rabbitmq:management
+
+  promoweb_api:
+    image: ${DOCKER_REGISTRY-}promowebapi
+    build:
+      context: .
+      dockerfile: Systems/Api/PromoWeb.Api/Dockerfile
+    depends_on:
+      - promoweb_postgresql
+
+  
+  promoweb_identity:
+    image: ${DOCKER_REGISTRY-}promowebidentity
+    build:
+      context: .
+      dockerfile: Systems/Identity/PromoWeb.Identity/Dockerfile
+    depends_on:
+      - promoweb_postgresql
+      - promoweb_api
+
+
+  promoweb_worker:
+    image: ${DOCKER_REGISTRY-}promowebworker
+    build:
+      context: .
+      dockerfile: Systems/Worker/PromoWeb.Worker/Dockerfile
+    depends_on:
+      - promoweb_postgresql
+      - promoweb_api
+      - promoweb_rabbitmq

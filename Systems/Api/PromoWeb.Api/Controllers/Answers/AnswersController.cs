@@ -4,6 +4,8 @@ using AutoMapper;
 using PromoWeb.Common.Responses;
 using PromoWeb.Services.Answers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using PromoWeb.Common.Security;
 
 
 /// <summary>
@@ -18,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/v{version:apiVersion}/answers")]
 [ApiController]
 [ApiVersion("1.0")]
+[Authorize]
 public class AnswersController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -39,6 +42,7 @@ public class AnswersController : ControllerBase
     /// <response code="200">List of AnswerResponses</response>
     [ProducesResponseType(typeof(IEnumerable<AnswerResponse>), 200)]
     [HttpGet("")]
+    [Authorize(Policy = AppScopes.AnswerRead)]
     public async Task<IEnumerable<AnswerResponse>> GetAnswers([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var answers = await answerService.GetAnswers(offset, limit);
@@ -53,6 +57,7 @@ public class AnswersController : ControllerBase
     /// <response code="200">AnswerResponse></response>
     [ProducesResponseType(typeof(AnswerResponse), 200)]
     [HttpGet("{id}")]
+    [Authorize(Policy = AppScopes.AnswerRead)]
     public async Task<AnswerResponse> GetAnswerById([FromRoute] int id)
     {
         var answer = await answerService.GetAnswer(id);
@@ -62,6 +67,7 @@ public class AnswersController : ControllerBase
     }
 
     [HttpPost("")]
+    [Authorize(Policy = AppScopes.AnswerWrite)]
     public async Task<AnswerResponse> AddAnswer([FromBody] AddAnswerRequest request)
     {
         var model = mapper.Map<AddAnswerModel>(request);
@@ -72,6 +78,7 @@ public class AnswersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = AppScopes.AnswerWrite)]
     public async Task<IActionResult> DeleteAnswer([FromRoute] int id)
     {
         await answerService.DeleteAnswer(id);

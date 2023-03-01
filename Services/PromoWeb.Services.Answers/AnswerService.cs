@@ -4,6 +4,8 @@ using PromoWeb.Common.Exceptions;
 using PromoWeb.Common.Validator;
 using PromoWeb.Context;
 using PromoWeb.Context.Entities;
+using PromoWeb.Services.Actions;
+using PromoWeb.Services.EmailSender;
 
 namespace PromoWeb.Services.Answers
 {
@@ -11,17 +13,20 @@ namespace PromoWeb.Services.Answers
     {
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IMapper mapper;
+        private readonly IAction actions;
         private readonly IModelValidator<AddAnswerModel> addAnswerModelValidator;
 
         public AnswerService(
             IDbContextFactory<MainDbContext> contextFactory,
             IMapper mapper,
+            IAction actions,
             IModelValidator<AddAnswerModel> addAnswerModelValidator
             )
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
             this.addAnswerModelValidator = addAnswerModelValidator;
+            this.actions = actions;
         }
 
         public async Task<IEnumerable<AnswerModel>> GetAnswers(int offset = 0, int limit = 10)
@@ -62,6 +67,17 @@ namespace PromoWeb.Services.Answers
             var answer = mapper.Map<Answer>(model);
             await context.Answers.AddAsync(answer);
             context.SaveChanges();
+
+            var question = await context.Questions.FirstOrDefaultAsync(x => x.Id.Equals(model.QuestionId));
+
+            if (question.Email is not null)
+                await actions.SendEmail(new EmailModel
+                {
+                    Email = question.Email,
+                    Subject = "Your PromoWeb question",
+                    Message = model.Text
+                });
+
 
             return mapper.Map<AnswerModel>(answer);
         }

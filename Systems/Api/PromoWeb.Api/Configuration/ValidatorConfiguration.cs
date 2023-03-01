@@ -11,7 +11,7 @@ namespace PromoWeb.Api.Configuration  //https://docs.fluentvalidation.net/en/lat
     public static class ValidatorConfiguration
     {
         public static IMvcBuilder AddValidator(this IMvcBuilder builder) //возврат списка ошибок
-        {//и это возвращается клиенту вместо того что вернул бы запрос (iactionresult тип)
+        {//и это возвращается клиенту вместо того что вернул бы запрос (iactionresult)
             builder.ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
@@ -38,7 +38,7 @@ namespace PromoWeb.Api.Configuration  //https://docs.fluentvalidation.net/en/lat
                 };
             });
 
-            //те для валидации нужен mvcbuilder а не app в обычный контейнер не добавить 
+            //те для валидации нужен mvcbuilder
 
             builder.AddFluentValidation(fv =>
             {

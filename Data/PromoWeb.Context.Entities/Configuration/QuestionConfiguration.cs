@@ -11,7 +11,7 @@ namespace PromoWeb.Context.Entities.Configuration
 
             builder.Property(entity => entity.Text).IsRequired().HasMaxLength(500);
 
-            builder.Property(entity => entity.Email).IsRequired().HasMaxLength(100);
+            builder.Property(entity => entity.Email).HasMaxLength(100);
 
             builder.Property(entity => entity.RecipientEmail).IsRequired().HasMaxLength(100);
 

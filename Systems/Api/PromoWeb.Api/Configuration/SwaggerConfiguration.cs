@@ -73,8 +73,20 @@ namespace PromoWeb.Api.Configuration
                             TokenUrl = new Uri($"{identitySettings.Url}/connect/token"), //обратиться за токеном к identityserver
                             Scopes = new Dictionary<string, string>
                             {
-                               // {AppScopes.CarsRead, "CarsRead"}, //APPRESOURCE ВИДИМО не используется
-                                //{AppScopes.CarsWrite, "CarsWrite" }
+                                {AppScopes.AppInfoRead, "CarsRead"},
+                                {AppScopes.AppInfoWrite, "AppInfoWrite" },
+                                {AppScopes.SectionRead, "SectionRead" },
+                                {AppScopes.SectionWrite, "SectionWrite" },
+                                {AppScopes.LinkRead, "LinkRead" },
+                                {AppScopes.LinkWrite, "LinkWrite" },
+                                {AppScopes.ImageRead, "ImageRead" },
+                                {AppScopes.ImageWrite, "ImageWrite" },
+                                {AppScopes.QuestionRead, "QuestionRead" },
+                                {AppScopes.QuestionWrite, "QuestionWrite" },
+                                {AppScopes.AnswerRead, "AnswerRead" },
+                                {AppScopes.AnswerWrite, "AnswerWrite" },
+                                {AppScopes.ContactRead, "ContactRead" },
+                                {AppScopes.ContactWrite, "ContactWrite" }
                             }
                         }
                     }

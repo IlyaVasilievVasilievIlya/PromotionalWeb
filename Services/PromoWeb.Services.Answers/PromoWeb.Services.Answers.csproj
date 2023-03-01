@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\Data\PromoWeb.Context.Entities\PromoWeb.Context.Entities.csproj" />
     <ProjectReference Include="..\..\Data\PromoWeb.Context\PromoWeb.Context.csproj" />
     <ProjectReference Include="..\..\Shared\PromoWeb.Common\PromoWeb.Common.csproj" />
+    <ProjectReference Include="..\PromoWeb.Services.Actions\PromoWeb.Services.Actions.csproj" />
   </ItemGroup>
 
 </Project>

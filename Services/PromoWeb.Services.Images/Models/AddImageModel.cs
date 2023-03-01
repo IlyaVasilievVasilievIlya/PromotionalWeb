@@ -3,27 +3,52 @@
 using AutoMapper;
 using PromoWeb.Context.Entities;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using PromoWeb.Context;
 
 public class AddImageModel
 {
+    public string ImageName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
     public int AppInfoId { get; set; }
-    public byte[] Bytes { get; set; }
-    public string FileExtension { get; set; } = string.Empty;
+    public string ImagePath { get; set; }
 }
 
 public class AddImageModelValidator : AbstractValidator<AddImageModel>
 {
-    public AddImageModelValidator()
+    private readonly IDbContextFactory<MainDbContext> contextFactory;
+
+    public AddImageModelValidator(IDbContextFactory<MainDbContext> contextFactory)
     {
+        this.contextFactory = contextFactory;
+
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(100).WithMessage("Description is long.");
 
-        RuleFor(x => x.FileExtension)
-            .NotEmpty().WithMessage("Extension is required.")
-            .MaximumLength(6).WithMessage("Extension field is long.");
+        RuleFor(x => x.ImageName)
+            .NotEmpty().WithMessage("Image name is required.")
+            .MaximumLength(100).WithMessage("Image name is long.");
+
+        RuleFor(x => x.ImagePath)
+            .NotEmpty().WithMessage("Image path is required");
+
+        RuleFor(x => x.ImageName).MustAsync(async (value, c) => await UniqueImageName(value))
+                .WithMessage("Image name must be unique.");
+    }
+
+    public async Task<bool> UniqueImageName(string newImageName) //в методе check неасинхронная валидация
+    {
+        using var context = await contextFactory.CreateDbContextAsync();
+
+        var image = await context.Images.FirstOrDefaultAsync(x => x.ImageName.Equals(newImageName)); //postgre чувствителен к регистру, windows - нет, и здесь тоже (проблемаа)
+
+        if (image == null)
+        {
+            return true;
+        }
+        return false;
     }
 }
 

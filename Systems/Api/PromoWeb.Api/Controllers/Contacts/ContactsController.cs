@@ -5,6 +5,8 @@ using PromoWeb.Common.Responses;
 using PromoWeb.Services.Contacts;
 using Microsoft.AspNetCore.Mvc;
 using PromoWeb.Api.Contacts;
+using Microsoft.AspNetCore.Authorization;
+using PromoWeb.Common.Security;
 
 /// <summary>
 /// Contacts controller
@@ -18,6 +20,7 @@ using PromoWeb.Api.Contacts;
 [Route("api/v{version:apiVersion}/contacts")]
 [ApiController]
 [ApiVersion("1.0")]
+[Authorize]
 public class ContactsController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -39,6 +42,7 @@ public class ContactsController : ControllerBase
     /// <response code="200">List of ContactResponses</response>
     [ProducesResponseType(typeof(IEnumerable<ContactResponse>), 200)]
     [HttpGet("")]
+    [Authorize(Policy = AppScopes.ContactRead)]
     public async Task<IEnumerable<ContactResponse>> GetContacts([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var contacts = await contactService.GetContacts(offset, limit);
@@ -53,6 +57,7 @@ public class ContactsController : ControllerBase
     /// <response code="200">ContactResponse></response>
     [ProducesResponseType(typeof(ContactResponse), 200)]
     [HttpGet("{id}")]
+    [Authorize(Policy = AppScopes.ContactRead)]
     public async Task<ContactResponse> GetContactById([FromRoute] int id)
     {
         var contact = await contactService.GetContact(id);
@@ -62,6 +67,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost("")]
+    [Authorize(Policy = AppScopes.ContactWrite)]
     public async Task<ContactResponse> AddContact([FromBody] AddContactRequest request)
     {
         var model = mapper.Map<AddContactModel>(request);
@@ -72,6 +78,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = AppScopes.ContactWrite)]
     public async Task<IActionResult> UpdateContact([FromRoute] int id, [FromBody] UpdateContactRequest request)
     {
         var model = mapper.Map<UpdateContactModel>(request);
@@ -81,6 +88,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = AppScopes.ContactWrite)]
     public async Task<IActionResult> DeleteContact([FromRoute] int id)
     {
         await contactService.DeleteContact(id);

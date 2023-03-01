@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PromoWeb.Context.Entities;
 using PromoWeb.Context.Entities.Configuration;
 
 namespace PromoWeb.Context
 {
-    public class MainDbContext : DbContext //: IdentityDbContext<User, UserRole, Guid> //надо user своих добавить ибо по дефолту identityUser там
+    public class MainDbContext : IdentityDbContext<User, UserRole, Guid>
     { 
         public DbSet<AppInfo> AppInfos { get; set; }
         public DbSet<Contact> Contacts { get; set; }
@@ -22,14 +24,13 @@ namespace PromoWeb.Context
         {
             base.OnModelCreating(builder);
 
-            //дать удобные имена
-            /*builder.Entity<User>().ToTable("users");
+            builder.Entity<User>().ToTable("users");
             builder.Entity<UserRole>().ToTable("user_roles");
             builder.Entity<IdentityUserToken<Guid>>().ToTable("user_tokens");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("user_role_owners");
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("user_role_claims");
             builder.Entity<IdentityUserLogin<Guid>>().ToTable("user_logins");
-            builder.Entity<IdentityUserClaim<Guid>>().ToTable("user_claims");*/
+            builder.Entity<IdentityUserClaim<Guid>>().ToTable("user_claims");
 
 
             builder.ApplyConfiguration(new AnswerConfiguration());

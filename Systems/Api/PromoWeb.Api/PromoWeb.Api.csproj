@@ -4,21 +4,22 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>    <DocumentationFile>api.xml</DocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>    <DocumentationFile>api.xml</DocumentationFile>    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>    <DockerfileContext>..\..\..</DockerfileContext>    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
     <Folder Include="Middlewares\" />
     <Folder Include="Pages\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageReference Include="Serilog.Expressions" Version="3.4.1" />
@@ -42,6 +43,7 @@
     <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Answers\PromoWeb.Services.Answers.csproj" />
     <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Sections\PromoWeb.Services.Sections.csproj" />
     <ProjectReference Include="..\..\..\Services\PromoWeb.Services.Settings\PromoWeb.Services.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Services\PromoWeb.Services.UserAccount\PromoWeb.Services.UserAccount.csproj" />
     <ProjectReference Include="..\..\..\Shared\PromoWeb.Common\PromoWeb.Common.csproj" />
   </ItemGroup>
 

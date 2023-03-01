@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\PromoWeb.Consts\PromoWeb.Consts.csproj" />
+    <ProjectReference Include="..\PromoWeb.Services.EmailSender\PromoWeb.Services.EmailSender.csproj" />
+    <ProjectReference Include="..\PromoWeb.Services.RabbitMq\PromoWeb.Services.RabbitMq.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -5,6 +5,8 @@ using PromoWeb.Common.Responses;
 using PromoWeb.Services.Links;
 using Microsoft.AspNetCore.Mvc;
 using PromoWeb.Api.Links;
+using Microsoft.AspNetCore.Authorization;
+using PromoWeb.Common.Security;
 
 
 /// <summary>
@@ -19,6 +21,7 @@ using PromoWeb.Api.Links;
 [Route("api/v{version:apiVersion}/links")]
 [ApiController]
 [ApiVersion("1.0")]
+[Authorize]
 public class LinksController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -40,6 +43,7 @@ public class LinksController : ControllerBase
     /// <response code="200">List of LinkResponses</response>
     [ProducesResponseType(typeof(IEnumerable<LinkResponse>), 200)]
     [HttpGet("")]
+    [Authorize(Policy = AppScopes.LinkRead)]
     public async Task<IEnumerable<LinkResponse>> GetLinks([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var links = await linkService.GetLinks(offset, limit);
@@ -54,6 +58,7 @@ public class LinksController : ControllerBase
     /// <response code="200">LinkResponse></response>
     [ProducesResponseType(typeof(LinkResponse), 200)]
     [HttpGet("{id}")]
+    [Authorize(Policy = AppScopes.LinkRead)]
     public async Task<LinkResponse> GetLinkById([FromRoute] int id)
     {
         var link = await linkService.GetLink(id);
@@ -63,6 +68,7 @@ public class LinksController : ControllerBase
     }
 
     [HttpPost("")]
+    [Authorize(Policy = AppScopes.LinkWrite)]
     public async Task<LinkResponse> AddLink([FromBody] AddLinkRequest request)
     {
         var model = mapper.Map<AddLinkModel>(request);
@@ -73,6 +79,7 @@ public class LinksController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = AppScopes.LinkWrite)]
     public async Task<IActionResult> UpdateLink([FromRoute] int id, [FromBody] UpdateLinkRequest request)
     {
         var model = mapper.Map<UpdateLinkModel>(request);
@@ -82,6 +89,7 @@ public class LinksController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = AppScopes.LinkWrite)]
     public async Task<IActionResult> DeleteLink([FromRoute] int id)
     {
         await linkService.DeleteLink(id);

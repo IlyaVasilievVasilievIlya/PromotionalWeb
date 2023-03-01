@@ -8,7 +8,7 @@ public class AddQuestionModel
 {
     public DateTime Date { get; set; }
     public string Text { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
+    public string? Email { get; set; }
     public string RecipientEmail { get; set; } = string.Empty;
 }
 
@@ -22,7 +22,6 @@ public class AddQuestionModelValidator : AbstractValidator<AddQuestionModel>
             .MaximumLength(500).WithMessage("Text is too long.");
 
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email is required.")
             .MaximumLength(100).WithMessage("Email is too long.");
 
         RuleFor(x => x.RecipientEmail)

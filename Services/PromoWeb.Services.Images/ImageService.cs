@@ -6,6 +6,7 @@ using PromoWeb.Common.Validator;
 using PromoWeb.Context;
 using PromoWeb.Context.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 public class ImageService : IImageService
 {
@@ -58,7 +59,7 @@ public class ImageService : IImageService
 
     public async Task<ImageModel> AddImage(AddImageModel model)
     {
-        addImageModelValidator.Check(model);
+        addImageModelValidator.CheckAsync(model);
 
         using var context = await contextFactory.CreateDbContextAsync();
 
@@ -75,24 +76,34 @@ public class ImageService : IImageService
 
         using var context = await contextFactory.CreateDbContextAsync();
 
-        var image = await context.Images.FirstOrDefaultAsync(x => x.Id.Equals(imageId));
+        var image = await context.Images.FirstOrDefaultAsync(x => x.Id.Equals(imageId));            
 
         ProcessException.ThrowIf(() => image is null, $"The image (id: {imageId}) was not found");
 
+        string imagePath = image!.ImagePath;
         image = mapper.Map(model, image);
-
         context.Images.Update(image);
         context.SaveChanges();
+
+        if (model.ImagePath != imagePath)
+        {
+            using (FileStream stream = new FileStream(model.ImagePath, FileMode.Create))
+            {
+                await model.ImageStream.CopyToAsync(stream);
+            }
+            File.Delete(imagePath);
+        }
     }
 
     public async Task DeleteImage(int imageId)
     {
         using var context = await contextFactory.CreateDbContextAsync();
 
+
         var image = await context.Images.FirstOrDefaultAsync(x => x.Id.Equals(imageId))
             ?? throw new ProcessException($"The image (id: {imageId}) was not found");
-
         context.Remove(image);
         context.SaveChanges();
+        File.Delete(image.ImagePath);
     }
 }

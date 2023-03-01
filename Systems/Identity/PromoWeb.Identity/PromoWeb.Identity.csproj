@@ -1,9 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>5a29126f-6856-41c2-9d79-4583917e1d18</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer" Version="6.2.3" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Data\PromoWeb.Context.Entities\PromoWeb.Context.Entities.csproj" />
+    <ProjectReference Include="..\..\..\Data\PromoWeb.Context\PromoWeb.Context.csproj" />
+    <ProjectReference Include="..\..\..\Shared\PromoWeb.Common\PromoWeb.Common.csproj" />
+  </ItemGroup>
 </Project>

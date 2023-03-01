@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PromoWeb.Context.Entities;
 
@@ -8,7 +9,8 @@ namespace PromoWeb.Context
     {
         private static IServiceScope ServiceScope(IServiceProvider serviceProvider) => serviceProvider.GetService<IServiceScopeFactory>()!.CreateScope();
         private static MainDbContext DbContext(IServiceProvider serviceProvider) => ServiceScope(serviceProvider).ServiceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>().CreateDbContext();
-
+        private static UserManager<User> User(IServiceProvider serviceProvider) => ServiceScope(serviceProvider).ServiceProvider.GetRequiredService<UserManager<User>>();
+        private static RoleManager<UserRole> UserRole(IServiceProvider serviceProvider) => ServiceScope(serviceProvider).ServiceProvider.GetRequiredService<RoleManager<UserRole>>();
 
 
         public static void Execute(IServiceProvider serviceProvider, bool addDemoData)
@@ -16,7 +18,10 @@ namespace PromoWeb.Context
             using var scope = ServiceScope(serviceProvider);
             ArgumentNullException.ThrowIfNull(scope);
 
-
+            Task.Run(async () =>
+            {
+                await InitializeAdmin(User(serviceProvider), UserRole(serviceProvider));
+            });
 
             if (addDemoData)
             {
@@ -25,6 +30,7 @@ namespace PromoWeb.Context
                     await ConfigureDemoData(serviceProvider);
                 });
             }
+
         }
 
         private static async Task ConfigureDemoData(IServiceProvider serviceProvider)
@@ -32,7 +38,29 @@ namespace PromoWeb.Context
             await AddApp(serviceProvider);
         }
 
-
+        public static async Task InitializeAdmin(UserManager<User> userManager, RoleManager<UserRole> roleManager)
+        {
+            
+            string adminEmail = "ilyavasilev56@gmail.com";
+            string password = "1234";
+            if (await roleManager.FindByNameAsync("admin") == null)
+            {
+                await roleManager.CreateAsync(new UserRole("admin"));
+            }
+            if (await roleManager.FindByNameAsync("moderator") == null)
+            {
+                await roleManager.CreateAsync(new UserRole("moderator"));
+            }
+            if (await userManager.FindByNameAsync(adminEmail) == null)
+            {
+                User admin = new User { Email = adminEmail, UserName = adminEmail, FullName = "unknown"};
+                IdentityResult result = await userManager.CreateAsync(admin, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "admin");
+                }
+            }
+        }
 
         private static async Task AddApp(IServiceProvider serviceProvider)
         {
@@ -76,12 +104,12 @@ namespace PromoWeb.Context
 
             var appinfos = new AppInfo[]
             {
-                new AppInfo { Section = sections[0], TextTitle = "Mono Scrobbler", 
+                new AppInfo { Section = sections[0], TextTitle = "Mono Scrobbler",
                             Text = "Multifunctional music tracker with beautiful animation" },
                 new AppInfo { Section = sections[1], TextTitle = "Scrobble on your device", Text = "Supports phones, TVs, tablets and Android desktops including Windows 11" },
                 new AppInfo { Section = sections[1], TextTitle = "Flexible editing", Text = "Edit or delete existings scrobbles. Remembers edits, fix metadata such as \"Remastered\" or" +
                                                                                              "your own patterns with regesx edits, block artists, tracks etc and auto skip or mute when they play" },
-                new AppInfo { Section = sections[1], TextTitle = "Lorem Ipsum", 
+                new AppInfo { Section = sections[1], TextTitle = "Lorem Ipsum",
                                                                             Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
                                                                             "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                                                                             " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " +
@@ -94,12 +122,10 @@ namespace PromoWeb.Context
                                                                             "Vulputate enim nulla aliquet porttitor. Amet consectetur adipiscing elit ut. Eget mauris pharetra et ultrices. " +
                                                                             "Nam libero justo laoreet sit amet." },
                 new AppInfo { Section = sections[2], TextTitle = "What services does Mono Scrobbler support?", Text = "Mono Scrobbler supports LastFM, LibreFM and Listenbrainz" },
-                new AppInfo { Section = sections[2], TextTitle = "What streaming services does Mono Scrobbler support?", 
+                new AppInfo { Section = sections[2], TextTitle = "What streaming services does Mono Scrobbler support?",
                                                                             Text = "Mono Scrobbler supports services that send metadata about the music the user has listened to. These services are the majority of those on the market." }
             };
             context.AppInfos.AddRange(appinfos);
-
-
 
 
             /*             "textTitle": "Reliability",

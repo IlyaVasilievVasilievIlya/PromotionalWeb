@@ -10,7 +10,7 @@ namespace PromoWeb.Services.Settings
     {
         public bool Enabled { get; private set; }
 
-        public string OAuthClientId { get; private set; } //передается для конфигурации swagger, 
+        public string OAuthClientId { get; private set; }
         public string OAuthClientSecret { get; private set; }
 
         public SwaggerSettings() 

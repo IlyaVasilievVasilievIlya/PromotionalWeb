@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace PromoWeb.Api.Configuration.HealthChecks
 {
-    public class SelfHealthCheck : IHealthCheck //есть на metanit еще пример (здесь загрузка своей сборки)
+    public class SelfHealthCheck : IHealthCheck //загрузка своей же сборки
     {
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {

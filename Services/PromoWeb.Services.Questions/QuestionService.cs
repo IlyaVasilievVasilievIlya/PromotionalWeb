@@ -4,6 +4,8 @@ using PromoWeb.Common.Exceptions;
 using PromoWeb.Common.Validator;
 using PromoWeb.Context;
 using PromoWeb.Context.Entities;
+using PromoWeb.Services.Actions;
+using PromoWeb.Services.EmailSender;
 
 namespace PromoWeb.Services.Questions
 {
@@ -11,17 +13,20 @@ namespace PromoWeb.Services.Questions
     {
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IMapper mapper;
+        private readonly IAction actions;
         private readonly IModelValidator<AddQuestionModel> addQuestionModelValidator;
 
         public QuestionService(
             IDbContextFactory<MainDbContext> contextFactory,
             IMapper mapper,
-            IModelValidator<AddQuestionModel> addQuestionModelValidator
+            IModelValidator<AddQuestionModel> addQuestionModelValidator,
+            IAction actions
             )
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
             this.addQuestionModelValidator = addQuestionModelValidator;
+            this.actions = actions;
         }
 
         public async Task<IEnumerable<QuestionModel>> GetQuestions(int offset = 0, int limit = 10)
@@ -55,6 +60,8 @@ namespace PromoWeb.Services.Questions
 
         public async Task<QuestionModel> AddQuestion(AddQuestionModel model)
         {
+
+            //model.RecipientEmail = ; //email админа надо доставать из настроек окружения,
             addQuestionModelValidator.Check(model);
 
             using var context = await contextFactory.CreateDbContextAsync();
@@ -62,6 +69,14 @@ namespace PromoWeb.Services.Questions
             var question = mapper.Map<Question>(model);
             await context.Questions.AddAsync(question);
             context.SaveChanges();
+
+            if (model.Email is not null)
+                await actions.SendEmail(new EmailModel
+                {
+                    Email = model.RecipientEmail,
+                    Subject = "PromoWeb guest's question",
+                    Message = model.Text
+                });
 
             return mapper.Map<QuestionModel>(question);
         }

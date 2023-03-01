@@ -20,7 +20,7 @@ namespace PromoWeb.Api.Configuration
 
             app.MapHealthChecks("/health/detail", new HealthCheckOptions
             {
-                ResponseWriter = HealthCheckHelper.WriteHealthCheckResponse, //в common для детального ответа
+                ResponseWriter = HealthCheckHelper.WriteHealthCheckResponse,
                 AllowCachingResponses = false,
             });
         }
