@@ -45,6 +45,21 @@ namespace PromoWeb.Services.AppInfos
             return data;
         }
 
+        public async Task<IEnumerable<AppInfoModel>> GetAppInfosBySectionId(int sectionId)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var appinfos = context
+                .AppInfos
+                .Include(x => x.Section)
+                .Where(x => x.SectionId.Equals(sectionId))
+                .AsQueryable();
+
+            var data = (await appinfos.ToListAsync()).Select(info => mapper.Map<AppInfoModel>(info));
+
+            return data;
+        }
+
         public async Task<AppInfoModel> GetAppInfo(int id)
         {
             using var context = await contextFactory.CreateDbContextAsync();

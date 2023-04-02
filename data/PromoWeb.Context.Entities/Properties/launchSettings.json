@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "PromoWeb.Context.Entities": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58520;http://localhost:58521"
+    }
+  }
+}

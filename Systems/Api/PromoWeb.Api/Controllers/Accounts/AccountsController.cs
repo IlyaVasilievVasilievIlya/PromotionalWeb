@@ -9,7 +9,7 @@ namespace PromoWeb.Api.Controllers.Accounts
     [Route("api/v{version:apiVersion}/accounts")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize] //роль админа
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -24,8 +24,8 @@ namespace PromoWeb.Api.Controllers.Accounts
         }
 
         [HttpPost("")]
-        [Authorize(Policy = "admin")] //не работает
-        public async Task<UserAccountResponse> Register([FromQuery] RegisterUserAccountRequest request)
+        [Authorize(Policy = "admin")]
+		public async Task<UserAccountResponse> Register([FromQuery] RegisterUserAccountRequest request)
         {
             var user = await userAccountService.Create(mapper.Map<RegisterUserAccountModel>(request));
 

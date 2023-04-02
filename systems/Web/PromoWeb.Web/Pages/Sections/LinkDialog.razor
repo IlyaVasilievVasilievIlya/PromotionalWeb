@@ -1,0 +1,78 @@
+﻿@inherits MudComponentBase
+
+@inject ILinkService linkService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="LinkText" @bind-Value="model.LinkText"
+                                  For="@(() => model.LinkText)"
+                                  Required="true"
+                                  RequiredError="Link is required!">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Description" @bind-Value="model.Description"
+                                  For="@(() => model.Description)"
+                                  Required="true"
+                                  RequiredError="Description is required!">
+                    </MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = new();
+
+    LinkModelValidator modelValidator = new LinkModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int SectionId { get; set; } = default;
+
+    [Parameter]
+    public int? LinkId { get; set; } = default;
+
+    [Parameter]
+    public LinkModel model { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        model.SectionId = SectionId;
+        isNew = LinkId == null;
+        if (!isNew)
+        {
+            var link = await linkService.GetLink(LinkId ?? 0);
+
+            model.LinkText = link.LinkText;
+            model.Description = link.Description;
+        }
+
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

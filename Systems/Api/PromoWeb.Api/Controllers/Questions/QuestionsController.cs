@@ -20,7 +20,6 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/v{version:apiVersion}/questions")]
 [ApiController]
 [ApiVersion("1.0")]
-[Authorize]
 public class QuestionsController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -43,8 +42,8 @@ public class QuestionsController : ControllerBase
     /// <response code="200">List of QuestionResponses</response>
     [ProducesResponseType(typeof(IEnumerable<QuestionResponse>), 200)]
     [HttpGet("")]
-    [Authorize(Policy = AppScopes.QuestionRead)]
-    public async Task<IEnumerable<QuestionResponse>> GetQuestions([FromQuery] int offset = 0, [FromQuery] int limit = 10)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<IEnumerable<QuestionResponse>> GetQuestions([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var questions = await questionService.GetQuestions(offset, limit);
         var response = mapper.Map<IEnumerable<QuestionResponse>>(questions);
@@ -58,8 +57,8 @@ public class QuestionsController : ControllerBase
     /// <response code="200">QuestionResponse></response>
     [ProducesResponseType(typeof(QuestionResponse), 200)]
     [HttpGet("{id}")]
-    [Authorize(Policy = AppScopes.QuestionRead)]
-    public async Task<QuestionResponse> GetQuestionById([FromRoute] int id)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<QuestionResponse> GetQuestionById([FromRoute] int id)
     {
         var question = await questionService.GetQuestion(id);
         var response = mapper.Map<QuestionResponse>(question);
@@ -68,10 +67,10 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Policy = AppScopes.QuestionWrite)]
-    public async Task<QuestionResponse> AddQuestion([FromBody] AddQuestionRequest request)
+	public async Task<QuestionResponse> AddQuestion([FromBody] AddQuestionRequest request)
     {
         var model = mapper.Map<AddQuestionModel>(request);
+        model.Date = DateTime.UtcNow;
         var question = await questionService.AddQuestion(model);
         var response = mapper.Map<QuestionResponse>(question);
 
@@ -79,8 +78,8 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = AppScopes.QuestionWrite)]
-    public async Task<IActionResult> DeleteQuestion([FromRoute] int id)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<IActionResult> DeleteQuestion([FromRoute] int id)
     {
         await questionService.DeleteQuestion(id);
 

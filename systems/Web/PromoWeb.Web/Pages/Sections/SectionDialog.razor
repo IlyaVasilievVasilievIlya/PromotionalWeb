@@ -1,0 +1,63 @@
+﻿@inherits MudComponentBase
+
+@inject ISectionService sectionService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="SectionName" @bind-Value="model.SectionName"
+                                  For="@(() => model.SectionName)"
+                                  Required="true"
+                                  RequiredError="Section name is required!">
+                    </MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = new();
+
+    SectionModelValidator modelValidator = new SectionModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? SectionId { get; set; } = default;
+
+    [Parameter]
+    public SectionModel model { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        isNew = SectionId == null;
+        if (!isNew)
+        {
+            var section = await sectionService.GetSection(SectionId ?? 0);
+            model.SectionName = section.SectionName;
+        }
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

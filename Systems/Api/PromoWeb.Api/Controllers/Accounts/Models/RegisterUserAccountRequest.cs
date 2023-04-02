@@ -23,7 +23,7 @@ namespace PromoWeb.Api.Controllers.Accounts.Models
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(50).WithMessage("Password is long."); //регулярку на символы-цифры
+                .MaximumLength(50).WithMessage("Password is long.");
         }
     }
 

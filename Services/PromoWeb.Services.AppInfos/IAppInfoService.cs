@@ -3,6 +3,7 @@
     public interface IAppInfoService
     {
         Task<IEnumerable<AppInfoModel>> GetAppInfos(int offset = 0, int limit = 10);
+        Task<IEnumerable<AppInfoModel>> GetAppInfosBySectionId(int sectionId);
 
         Task<AppInfoModel> GetAppInfo(int infoId);
         Task<AppInfoModel> AddAppInfo(AddAppInfoModel model);

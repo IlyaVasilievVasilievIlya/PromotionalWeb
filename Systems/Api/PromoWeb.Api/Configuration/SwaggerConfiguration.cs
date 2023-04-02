@@ -58,7 +58,6 @@ namespace PromoWeb.Api.Configuration
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
 
-                //повесить авторизацию на отдельные методы или целиком (авторизация от лица админа
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Name = "Bearer",
@@ -70,23 +69,12 @@ namespace PromoWeb.Api.Configuration
                     {
                         Password = new OpenApiOAuthFlow
                         {
-                            TokenUrl = new Uri($"{identitySettings.Url}/connect/token"), //обратиться за токеном к identityserver
+                            TokenUrl = new Uri($"{identitySettings.Url}/connect/token"),
+                            
                             Scopes = new Dictionary<string, string>
                             {
-                                {AppScopes.AppInfoRead, "CarsRead"},
-                                {AppScopes.AppInfoWrite, "AppInfoWrite" },
-                                {AppScopes.SectionRead, "SectionRead" },
-                                {AppScopes.SectionWrite, "SectionWrite" },
-                                {AppScopes.LinkRead, "LinkRead" },
-                                {AppScopes.LinkWrite, "LinkWrite" },
-                                {AppScopes.ImageRead, "ImageRead" },
-                                {AppScopes.ImageWrite, "ImageWrite" },
-                                {AppScopes.QuestionRead, "QuestionRead" },
-                                {AppScopes.QuestionWrite, "QuestionWrite" },
-                                {AppScopes.AnswerRead, "AnswerRead" },
-                                {AppScopes.AnswerWrite, "AnswerWrite" },
-                                {AppScopes.ContactRead, "ContactRead" },
-                                {AppScopes.ContactWrite, "ContactWrite" }
+								{AppScopes.AppApi, "AppApi"},
+								{AppScopes.UsersApi, "UsersApi" }
                             }
                         }
                     }

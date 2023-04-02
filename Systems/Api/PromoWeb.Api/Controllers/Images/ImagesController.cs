@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using PromoWeb.Api.Images;
 using Microsoft.AspNetCore.Authorization;
 using PromoWeb.Common.Security;
+using PromoWeb.Api.AppInfos;
+using PromoWeb.Api.Configuration;
+//using Serilog;
 
 
 /// <summary>
@@ -21,7 +24,6 @@ using PromoWeb.Common.Security;
 [Route("api/v{version:apiVersion}/images")]
 [ApiController]
 [ApiVersion("1.0")]
-[Authorize]
 public class ImagesController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -45,7 +47,6 @@ public class ImagesController : ControllerBase
     /// <response code="200">List of ImageResponses</response>
     [ProducesResponseType(typeof(IEnumerable<ImageResponse>), 200)]
     [HttpGet("")]
-    [Authorize(Policy = AppScopes.ImageRead)]
     public async Task<IEnumerable<ImageResponse>> GetImages([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var images = await imageService.GetImages(offset, limit);
@@ -60,7 +61,6 @@ public class ImagesController : ControllerBase
     /// <response code="200">ImageResponse></response>
     [ProducesResponseType(typeof(ImageResponse), 200)]
     [HttpGet("{id}")]
-    //[Authorize(Policy = AppScopes.ImageRead)]
     public async Task<ImageResponse> GetImageById([FromRoute] int id)
     {
         var image = await imageService.GetImage(id);
@@ -69,8 +69,18 @@ public class ImagesController : ControllerBase
         return response;
     }
 
+    [ProducesResponseType(typeof(IEnumerable<ImageResponse>), 200)]
+    [HttpGet("byAppInfo/{appInfoId}")]
+    public async Task<IEnumerable<ImageResponse>> GetImagesByAppInfoId(int appInfoId)
+    {
+		var images = await imageService.GetImagesByAppInfoId(appInfoId);
+        var response = mapper.Map<IEnumerable<ImageResponse>>(images);
+
+        return response;
+    }
+
     [HttpPost("")]
-    [Authorize(Policy = AppScopes.ImageWrite)]
+    [Authorize(Policy = AppScopes.AppApi)]
     public async Task<ImageResponse> AddImage([FromForm] AddImageRequest request)
     {
         var path = Path.Combine(appEnvironment.WebRootPath, "Images/", request.ImageName + Path.GetExtension(request.Image.FileName));
@@ -79,7 +89,7 @@ public class ImagesController : ControllerBase
         model.ImagePath = path;
         var image = await imageService.AddImage(model);
 
-        using (FileStream stream = new FileStream(path, FileMode.CreateNew)) //все в сервисе уник имя, и здесь гарантия тогда что такого файла нету
+        await using (FileStream stream = new FileStream(path, FileMode.CreateNew))
         {
             await request.Image.CopyToAsync(stream);
         }
@@ -90,7 +100,7 @@ public class ImagesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Policy = AppScopes.ImageWrite)]
+    [Authorize(Policy = AppScopes.AppApi)]
     public async Task<IActionResult> UpdateImage([FromRoute] int id, [FromForm] UpdateImageRequest request)
     {
         var path = Path.Combine(appEnvironment.WebRootPath, "Images/", request.ImageName + Path.GetExtension(request.Image.FileName));
@@ -105,8 +115,8 @@ public class ImagesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = AppScopes.ImageWrite)]
-    public async Task<IActionResult> DeleteImage([FromRoute] int id)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<IActionResult> DeleteImage([FromRoute] int id)
     {
         await imageService.DeleteImage(id);
 

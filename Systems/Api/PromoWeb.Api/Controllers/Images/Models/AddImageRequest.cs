@@ -27,7 +27,7 @@ public class AddImageRequestValidator : AbstractValidator<AddImageRequest>
             .NotEmpty().WithMessage("Image name is required.")
             .MaximumLength(100).WithMessage("Image name is long.");
 
-        RuleFor(x => x.Image) //надо только изображения(jpg, png, ...)
+        RuleFor(x => x.Image)
             .NotEmpty().WithMessage("Image is required");
 
         RuleFor(x => x.Image.Length)
@@ -36,7 +36,6 @@ public class AddImageRequestValidator : AbstractValidator<AddImageRequest>
             .WithMessage("Image content required");
 
         RuleFor(x => x.Image.ContentType)
-            
             .Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
             .When(x => x.Image is not null)
             .WithMessage("Only images allowed");

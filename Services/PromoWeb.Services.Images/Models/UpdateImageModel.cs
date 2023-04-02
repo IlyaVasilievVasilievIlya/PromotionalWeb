@@ -34,19 +34,6 @@ public class UpdateImageModelValidator : AbstractValidator<UpdateImageModel>
         RuleFor(x => x.ImagePath)
             .NotEmpty().WithMessage("Image path is required");
     }
-
-    public async Task<bool> UniqueImageName(string newImageName) //в методе check неасинхронная валидация
-    {
-        using var context = await contextFactory.CreateDbContextAsync();
-
-        var image = await context.Images.FirstOrDefaultAsync(x => x.ImageName.Equals(newImageName)); //postgre чувствителен к регистру, windows - нет, и здесь тоже (проблемаа)
-
-        if (image == null)
-        {
-            return true;
-        }
-        return false;
-    }
 }
 
 public class UpdateImageModelProfile : Profile

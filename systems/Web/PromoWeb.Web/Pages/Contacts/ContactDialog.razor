@@ -1,0 +1,88 @@
+﻿@inherits MudComponentBase
+
+@inject IContactService contactService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="ContactOwner" @bind-Value="model.ContactOwner"
+                                  For="@(() => model.ContactOwner)"
+                                  Required="true"
+                                  RequiredError="Contact onwer is required!">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Email" @bind-Value="model.Email"
+                                  For="@(() => model.Email)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Address" @bind-Value="model.Address"
+                                  For="@(() => model.Address)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="WebSite" @bind-Value="model.WebSite"
+                                  For="@(() => model.WebSite)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Phone" @bind-Value="model.Phone"
+                                  For="@(() => model.Phone)">
+                    </MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = new MudForm();
+
+    ContactModelValidator modelValidator = new ContactModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? ContactId { get; set; } = default;
+
+    [Parameter]
+    public ContactModel model { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        isNew = ContactId == null;
+
+        if (!isNew)
+        {
+            var contact = await contactService.GetContact(ContactId ?? 0);
+            model.ContactOwner = contact.ContactOwner;
+            model.Email = contact.Email;
+            model.WebSite = contact.WebSite;
+            model.Address = contact.Address;
+            model.Phone = contact.Phone;
+        }
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

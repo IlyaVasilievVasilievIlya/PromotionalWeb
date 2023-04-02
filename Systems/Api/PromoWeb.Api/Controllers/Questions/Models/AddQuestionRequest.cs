@@ -7,10 +7,8 @@ using PromoWeb.Services.Questions;
 
 public class AddQuestionRequest
 {
-    public DateTime Date { get; set; }
     public string Text { get; set; } = string.Empty;
-    public string? Email { get; set; } //пользователь введет только свой и текст
-    public string RecipientEmail { get; set; } = string.Empty;
+    public string? Email { get; set; }
 }
 
 public class AddQuestionRequestValidator : AbstractValidator<AddQuestionRequest>
@@ -26,14 +24,6 @@ public class AddQuestionRequestValidator : AbstractValidator<AddQuestionRequest>
             .EmailAddress()
             .When(x => !string.IsNullOrEmpty(x.Email))
             .WithMessage("Invalid email");
-
-        RuleFor(x => x.RecipientEmail)
-            .NotEmpty().WithMessage("RecipientEmail is required.")
-            .EmailAddress().WithMessage("Invalid email")
-            .MaximumLength(100).WithMessage("Email is too long.");
-
-        RuleFor(x => x.Date)
-            .NotEmpty().WithMessage("Date is required");
     }
 }
 

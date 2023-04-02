@@ -8,7 +8,5 @@
         public string? Email { get; set; }
 
         public virtual Answer? Answer { get; set; }
-
-        public string RecipientEmail { get; set; }
     }
 }

@@ -1,0 +1,93 @@
+﻿@inherits MudComponentBase
+
+@inject IImageService imageService
+
+<MudDialog>
+	<DialogContent>
+		<MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+			<MudGrid>
+				<MudItem xs="12" sm="6">
+					<MudTextField Label="ImageName" @bind-Value="model.ImageName"
+								  For="@(() => model.ImageName)"
+								  Required="true"
+								  RequiredError="Image name is required!">
+					</MudTextField>
+				</MudItem>
+				<MudItem xs="12" sm="6">
+					<MudTextField Label="Description" @bind-Value="model.Description"
+								  For="@(() => model.Description)"
+								  Required="true"
+								  RequiredError="Description is required!">
+					</MudTextField>
+				</MudItem>
+				@*                <MudItem xs="12" sm="6">
+				<MudImage Src=@model.ImagePath Alt=@MediaContext.ImageName />
+				</MudItem>*@
+				<MudFileUpload T="IBrowserFile" For="@(() => model.Image)" @bind-Files="model.Image">
+					<ButtonTemplate>
+						<MudButton HtmlTag="label"
+								   Variant="Variant.Filled"
+								   Color="Color.Primary"
+								   StartIcon="@Icons.Material.Filled.CloudUpload"
+								   for="@context">
+							Upload Image
+							</MudButton>
+					</ButtonTemplate>
+				</MudFileUpload>
+			</MudGrid>
+		</MudForm>
+	</DialogContent>
+	<DialogActions>
+		<MudButton OnClick="Cancel">Cancel</MudButton>
+		<MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+	</DialogActions>
+</MudDialog>
+
+@code {
+
+	[CascadingParameter]
+	MudDialogInstance MudDialog { get; set; } = default!;
+
+	MudForm form = new();
+
+	ImageModelValidator modelValidator = new ImageModelValidator();
+
+	bool isNew = false;
+
+
+	[Parameter]
+	public int AppInfoId { get; set; } = default;
+
+	[Parameter]
+	public int? ImageId { get; set; } = default;
+
+	[Parameter]
+	public ImageModel model { get; set; } = new();
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		model.AppInfoId = AppInfoId;
+		isNew = ImageId == null;
+		if (!isNew)
+		{
+			var image = await imageService.GetImage(ImageId ?? 0);
+
+			model.ImageName = image.ImageName;
+			model.Description = image.Description;
+		}
+
+		form.ResetValidation();
+	}
+
+	async Task Submit()
+	{
+		await form.Validate();
+		if (form.IsValid)
+		{
+			MudDialog.Close(DialogResult.Ok(true));
+		}
+	}
+
+	void Cancel() => MudDialog.Cancel();
+}

@@ -1,0 +1,134 @@
+﻿@page  "/sections"
+
+@layout MainLayout
+
+@inject ISectionService sectionService
+
+<!--повесить атрибуты авторизации(если на чтение не делать, то править бэк)-->
+
+<!--Это все для кнопок управления-->
+@*inject NavigationManager navigationManager*@
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+@*@attribute [Authorize]*@
+
+<MudText Typo="Typo.h4" Class="ma-8">Sections</MudText>
+
+<MudTable Items="@SectionListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<SectionListItem,bool>(FilterFuncSimple)">
+	<ColGroup>
+		<col style="width:50px;" />
+		<col />
+		<col style="width:100px;" />
+	</ColGroup>
+	<ToolBarContent>
+		<MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddSection())">Add</MudButton>
+		<MudSpacer />
+		<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+	</ToolBarContent>
+	<HeaderContent>
+		<MudTh>Id</MudTh>
+		<MudTh>SectionName</MudTh>
+		<MudTh></MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Id">@context.Id</MudTd>
+		<MudTd DataLabel="SectionName">@context.SectionName</MudTd>
+		<MudTd>
+			<MudLink Href="@($"sections/{context.Id}")">Info</MudLink>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditSection(context.Id))" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteSection(context.Id))" />
+		</MudTd>
+	</RowTemplate>
+</MudTable>
+
+
+@code {
+	private bool dense = false;  //уплотнить таблицу
+	private bool hover = true; //выделяться при наведении
+	private bool striped = true; //в полоску
+	private bool bordered = false; //с границами
+
+	private string searchString = "";
+
+	private IEnumerable<SectionListItem> SectionListItems = new List<SectionListItem>();
+
+	private async Task ReloadData()
+	{
+		SectionListItems = await sectionService.GetSections();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			await ReloadData();
+		}
+
+		catch (Exception ex)
+		{
+			Snackbar.Add(ex.Message, Severity.Error);
+		}
+	}
+
+	private bool FilterFuncSimple(SectionListItem SectionListItem) => FilterFunc(SectionListItem, searchString);
+
+	private bool FilterFunc(SectionListItem SectionListItem, string searchString)
+	{
+		return
+			string.IsNullOrWhiteSpace(searchString)
+			||
+			SectionListItem.SectionName.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+		;
+	}
+
+	private async Task AddSection()
+	{
+		var parameters = new DialogParameters { };
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+		var dialog = DialogService.Show<SectionDialog>("Add section", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await sectionService.AddSection(((SectionDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task EditSection(int sectionId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("SectionId", sectionId);
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+		var dialog = DialogService.Show<SectionDialog>("Edit section", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await sectionService.EditSection(sectionId, ((SectionDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task DeleteSection(int sectionId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("ContentText", "Do you really want to delete this section? This process cannot be undone.");
+		parameters.Add("ButtonText", "Delete");
+		parameters.Add("Color", Color.Error);
+
+		var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+		var dialog = DialogService.Show<ConfirmationDialog>("Delete section", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await sectionService.DeleteSection(sectionId);
+			await ReloadData();
+		}
+	}
+}

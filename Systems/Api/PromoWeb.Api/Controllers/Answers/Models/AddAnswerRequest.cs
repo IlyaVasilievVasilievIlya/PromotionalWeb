@@ -6,7 +6,6 @@ using PromoWeb.Context.Entities;
 
 public class AddAnswerRequest
 {
-    public DateTime Date { get; set; }
     public int QuestionId { get; set; }
     public string Text { get; set; } = string.Empty;
 }
@@ -21,8 +20,6 @@ public class AddAnswerRequestValidator : AbstractValidator<AddAnswerRequest>
         RuleFor(x => x.Text)
             .NotEmpty().WithMessage("Responce text is required.")
             .MaximumLength(1000).WithMessage("Text is too long.");
-        RuleFor(x => x.Date)
-            .NotEmpty().WithMessage("Date is required");
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using PromoWeb.Common.Security;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace PromoWeb.Identity.Configuration
 {
@@ -19,24 +20,11 @@ namespace PromoWeb.Identity.Configuration
                     AllowedGrantTypes = GrantTypes.ClientCredentials, //нет юзера за клиентом
 
                     AccessTokenLifetime = 3600, //1 hour
-                    AllowedScopes =
-                    {
-                        AppScopes.AppInfoRead,
-                        AppScopes.AppInfoWrite,
-                        AppScopes.SectionRead, 
-                        AppScopes.SectionWrite,
-                        AppScopes.LinkRead,
-                        AppScopes.LinkWrite,
-                        AppScopes.ImageRead,
-                        AppScopes.ImageWrite,
-                        AppScopes.QuestionRead,
-                        AppScopes.QuestionWrite,
-                        AppScopes.AnswerRead,
-                        AppScopes.AnswerWrite, 
-                        AppScopes.ContactRead, 
-                        AppScopes.ContactWrite,
-                        "roles"
-                    }
+
+                    AllowedScopes = {
+						AppScopes.UsersApi,
+						AppScopes.AppApi
+					}
                 }
                 ,
                 new Client
@@ -60,22 +48,9 @@ namespace PromoWeb.Identity.Configuration
                     SlidingRefreshTokenLifetime = 1296000, // 15 days
 
                     AllowedScopes = {
-                        AppScopes.AppInfoRead,
-                        AppScopes.AppInfoWrite,
-                        AppScopes.SectionRead,
-                        AppScopes.SectionWrite,
-                        AppScopes.LinkRead,
-                        AppScopes.LinkWrite,
-                        AppScopes.ImageRead,
-                        AppScopes.ImageWrite,
-                        AppScopes.QuestionRead,
-                        AppScopes.QuestionWrite,
-                        AppScopes.AnswerRead,
-                        AppScopes.AnswerWrite,
-                        AppScopes.ContactRead,
-                        AppScopes.ContactWrite,
-                        "roles"
-                    }
+                        AppScopes.UsersApi,
+                        AppScopes.AppApi
+                    }  
                 }
             };
     }

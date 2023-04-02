@@ -13,8 +13,6 @@ namespace PromoWeb.Context.Entities.Configuration
 
             builder.Property(entity => entity.Email).HasMaxLength(100);
 
-            builder.Property(entity => entity.RecipientEmail).IsRequired().HasMaxLength(100);
-
             builder.Property(entity => entity.Date).IsRequired();
         }
     }

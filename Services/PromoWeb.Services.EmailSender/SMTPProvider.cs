@@ -17,6 +17,8 @@ namespace PromoWeb.Services.EmailSender
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(settings.FromName, settings.FromEmail));
+            if (string.IsNullOrEmpty(email))
+                email = settings.FromEmail;
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
 

@@ -8,7 +8,6 @@ namespace PromoWeb.Identity
     {
         public static IServiceCollection RegisterAppServices(this IServiceCollection services)
         {
-            //services.AddScoped<IUserClaimsPrincipalFactory<User>, ClaimsFactory>();
             return services;
         }
     }

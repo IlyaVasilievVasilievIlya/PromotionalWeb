@@ -7,7 +7,6 @@ namespace PromoWeb.Identity.Configuration
     /// </summary>
     public static class CorsConfiguration
     {
-        //на наш api приходит приложение мы отдаем скрипт с редиректом сюда?
         /// <summary>
         /// Add CORS
         /// </summary>

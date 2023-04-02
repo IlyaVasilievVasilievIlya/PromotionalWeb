@@ -7,6 +7,7 @@ using PromoWeb.Context;
 using PromoWeb.Context.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.Collections.Generic;
 
 public class ImageService : IImageService
 {
@@ -40,6 +41,21 @@ public class ImageService : IImageService
         images = images
             .Skip(Math.Max(offset, 0))
             .Take(Math.Max(0, Math.Min(limit, 1000)));
+
+        var data = (await images.ToListAsync()).Select(image => mapper.Map<ImageModel>(image));
+
+        return data;
+    }
+
+    public async Task<IEnumerable<ImageModel>> GetImagesByAppInfoId(int appInfoId)
+    {
+        using var context = await contextFactory.CreateDbContextAsync();
+
+        var images = context
+            .Images
+            .Include(x => x.AppInfo)
+            .Where (x => x.AppInfoId.Equals(appInfoId))
+            .AsQueryable();
 
         var data = (await images.ToListAsync()).Select(image => mapper.Map<ImageModel>(image));
 
@@ -80,22 +96,35 @@ public class ImageService : IImageService
 
         ProcessException.ThrowIf(() => image is null, $"The image (id: {imageId}) was not found");
 
-        string imagePath = image!.ImagePath;
+		if (! await UniqueImageName(model.ImageName, imageId))
+			throw new ProcessException($"The image name must be unique");
+
+		string oldPath = new(image!.ImagePath);
         image = mapper.Map(model, image);
         context.Images.Update(image);
         context.SaveChanges();
 
-        if (model.ImagePath != imagePath)
+        File.Delete(oldPath);
+        using (FileStream stream = new FileStream(model.ImagePath, FileMode.Create))
         {
-            using (FileStream stream = new FileStream(model.ImagePath, FileMode.Create))
-            {
-                await model.ImageStream.CopyToAsync(stream);
-            }
-            File.Delete(imagePath);
+            await model.ImageStream.CopyToAsync(stream);
         }
     }
 
-    public async Task DeleteImage(int imageId)
+	public async Task<bool> UniqueImageName(string newImageName, int imageId)
+	{
+		using var context = await contextFactory.CreateDbContextAsync();
+
+		var image = await context.Images.FirstOrDefaultAsync(x => x.ImageName.ToUpper() == newImageName.ToUpper() && x.Id != imageId);
+
+		if (image == null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public async Task DeleteImage(int imageId)
     {
         using var context = await contextFactory.CreateDbContextAsync();
 

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "PromoWeb.Services.UserAccount": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58532;http://localhost:58533"
+    }
+  }
+}

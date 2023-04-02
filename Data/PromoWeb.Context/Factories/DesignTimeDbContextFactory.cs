@@ -10,7 +10,7 @@ namespace PromoWeb.Context
 
         public MainDbContext CreateDbContext(string[] args)
         {
-            var provider = (args?[0] ?? $"{DbType.PostgreSQL}").ToLower(); //для команды migration in cli
+            var provider = $"{DbType.PostgreSQL}".ToLower(); //для команды migration in cli
 
             var configuration = new ConfigurationBuilder()
                  .AddJsonFile("appsettings.context.json") //миграции для тестовой базы

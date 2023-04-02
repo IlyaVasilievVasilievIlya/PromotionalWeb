@@ -60,8 +60,6 @@ namespace PromoWeb.Services.Questions
 
         public async Task<QuestionModel> AddQuestion(AddQuestionModel model)
         {
-
-            //model.RecipientEmail = ; //email админа надо доставать из настроек окружения,
             addQuestionModelValidator.Check(model);
 
             using var context = await contextFactory.CreateDbContextAsync();
@@ -70,10 +68,9 @@ namespace PromoWeb.Services.Questions
             await context.Questions.AddAsync(question);
             context.SaveChanges();
 
-            if (model.Email is not null)
+            if (!string.IsNullOrEmpty(question.Email))
                 await actions.SendEmail(new EmailModel
                 {
-                    Email = model.RecipientEmail,
                     Subject = "PromoWeb guest's question",
                     Message = model.Text
                 });

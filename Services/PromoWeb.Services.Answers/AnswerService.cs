@@ -70,7 +70,7 @@ namespace PromoWeb.Services.Answers
 
             var question = await context.Questions.FirstOrDefaultAsync(x => x.Id.Equals(model.QuestionId));
 
-            if (question.Email is not null)
+            if (!string.IsNullOrEmpty(question.Email))
                 await actions.SendEmail(new EmailModel
                 {
                     Email = question.Email,

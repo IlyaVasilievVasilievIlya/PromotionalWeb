@@ -15,7 +15,7 @@ namespace PromoWeb.Services.Actions
 
         public async Task SendEmail(EmailModel email)
         {
-            await rabbitMq.PushAsync(RabbitMqTaskQueueNames.SEND_EMAIL, email); //зачем consts
+            await rabbitMq.PushAsync(RabbitMqTaskQueueNames.SEND_EMAIL, email);
         }
     }
 }

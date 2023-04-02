@@ -1,0 +1,52 @@
+﻿@inherits MudComponentBase
+
+@inject IQuestionService questionService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Text" @bind-Value="model.Text"
+                                  For="@(() => model.Text)"
+                                  Required="true"
+                                  RequiredError="Question text is required!">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Email" @bind-Value="model.Email"
+                                  For="@(() => model.Email)">
+                    </MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = new MudForm();
+
+    QuestionModelValidator modelValidator = new QuestionModelValidator();
+
+    [Parameter]
+    public QuestionModel model { get; set; } = new();
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

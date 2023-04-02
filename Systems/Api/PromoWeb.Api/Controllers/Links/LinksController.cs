@@ -21,7 +21,6 @@ using PromoWeb.Common.Security;
 [Route("api/v{version:apiVersion}/links")]
 [ApiController]
 [ApiVersion("1.0")]
-[Authorize]
 public class LinksController : ControllerBase
 {
     private readonly IMapper mapper;
@@ -43,7 +42,6 @@ public class LinksController : ControllerBase
     /// <response code="200">List of LinkResponses</response>
     [ProducesResponseType(typeof(IEnumerable<LinkResponse>), 200)]
     [HttpGet("")]
-    [Authorize(Policy = AppScopes.LinkRead)]
     public async Task<IEnumerable<LinkResponse>> GetLinks([FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var links = await linkService.GetLinks(offset, limit);
@@ -52,13 +50,22 @@ public class LinksController : ControllerBase
         return response;
     }
 
-    /// <summary>
-    /// Get links by Id
-    /// </summary>
-    /// <response code="200">LinkResponse></response>
-    [ProducesResponseType(typeof(LinkResponse), 200)]
+	[ProducesResponseType(typeof(IEnumerable<LinkResponse>), 200)]
+	[HttpGet("bySection/{sectionId}")]
+	public async Task<IEnumerable<LinkResponse>> GetLinksBySectionId([FromRoute] int sectionId)
+	{
+		var links = await linkService.GetLinksBySectionId(sectionId);
+		var response = mapper.Map<IEnumerable<LinkResponse>>(links);
+
+		return response;
+	}
+
+	/// <summary>
+	/// Get links by Id
+	/// </summary>
+	/// <response code="200">LinkResponse></response>
+	[ProducesResponseType(typeof(LinkResponse), 200)]
     [HttpGet("{id}")]
-    [Authorize(Policy = AppScopes.LinkRead)]
     public async Task<LinkResponse> GetLinkById([FromRoute] int id)
     {
         var link = await linkService.GetLink(id);
@@ -68,8 +75,8 @@ public class LinksController : ControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Policy = AppScopes.LinkWrite)]
-    public async Task<LinkResponse> AddLink([FromBody] AddLinkRequest request)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<LinkResponse> AddLink([FromBody] AddLinkRequest request)
     {
         var model = mapper.Map<AddLinkModel>(request);
         var link = await linkService.AddLink(model);
@@ -79,8 +86,8 @@ public class LinksController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Policy = AppScopes.LinkWrite)]
-    public async Task<IActionResult> UpdateLink([FromRoute] int id, [FromBody] UpdateLinkRequest request)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<IActionResult> UpdateLink([FromRoute] int id, [FromBody] UpdateLinkRequest request)
     {
         var model = mapper.Map<UpdateLinkModel>(request);
         await linkService.UpdateLink(id, model);
@@ -89,8 +96,8 @@ public class LinksController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = AppScopes.LinkWrite)]
-    public async Task<IActionResult> DeleteLink([FromRoute] int id)
+	[Authorize(Policy = AppScopes.AppApi)]
+	public async Task<IActionResult> DeleteLink([FromRoute] int id)
     {
         await linkService.DeleteLink(id);
 

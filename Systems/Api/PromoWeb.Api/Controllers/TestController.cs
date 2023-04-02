@@ -38,7 +38,7 @@ namespace PromoWeb.Api.Controllers
         /// <response code="200">String items</response>
         //[ProducesResponseType(typeof(IEnumerable<string>), 200)]
         //[ApiVersion("2.0")]
-        [HttpGet("kek")]
+        [HttpGet("test")]
         public async Task<IEnumerable<string>> GetData1(string? prefix)
         {
             var result = new List<string>()

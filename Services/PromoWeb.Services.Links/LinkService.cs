@@ -44,6 +44,21 @@ public class LinkService : ILinkService
 
         return data;
     }
+    
+    public async Task<IEnumerable<LinkModel>> GetLinksBySectionId(int sectionId)
+    {
+        using var context = await contextFactory.CreateDbContextAsync();
+
+        var links = context
+            .Links
+            .Include(x => x.Section)
+            .Where(x => x.SectionId.Equals(sectionId))
+            .AsQueryable();
+
+        var data = (await links.ToListAsync()).Select(link => mapper.Map<LinkModel>(link));
+
+        return data;
+    }
 
     public async Task<LinkModel> GetLink(int id)
     {

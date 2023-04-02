@@ -11,16 +11,20 @@ var services = builder.Services;
 services.AddAppCors();
 
 services.AddAppHealthChecks(); 
-services.AddAppDbContext(builder.Configuration); //сервер будет работать со списком пользователей из базы
+services.AddAppDbContext(builder.Configuration); //конфигурацию дефолтную подгружает
 
 services.AddIS4();
 
-services.RegisterAppServices(); //пусто по сервисам
+services.RegisterAppServices();
 var app = builder.Build();
 
 app.UseAppCors();
 
+
+
 app.UseAppHealthChecks();
 app.UseIS4();
+SeedUserData.Execute(app.Services);
+
 app.Run();
 

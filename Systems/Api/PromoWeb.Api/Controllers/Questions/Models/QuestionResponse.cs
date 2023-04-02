@@ -10,7 +10,6 @@ public class QuestionResponse
     public DateTime Date { get; set; }
     public string Text { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    //public string RecipientEmail { get; set; } = string.Empty;
     public string Answer { get; set; } = string.Empty;
 }
 

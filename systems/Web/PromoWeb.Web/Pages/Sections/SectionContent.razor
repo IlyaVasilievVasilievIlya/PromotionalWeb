@@ -1,0 +1,332 @@
+﻿@page "/sections/{sectionId:int}"
+
+@layout MainLayout
+
+@inject ISectionService sectionService
+@inject ILinkService linkService
+@inject IAppInfoService appInfoService
+@inject IImageService imageService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+@*@attribute [Authorize]*@
+
+<MudSimpleTable Style="overflow-x: auto;">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Link</th>
+			<th>Description</th>
+			<th><MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddLink())">Add</MudButton></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var link in LinkListItems)
+		{
+			<tr>
+				<td>@link.Id</td>
+				<td><MudLink Href=@link.LinkText>@link.LinkText</MudLink></td>
+				<td>@link.Description</td>
+				<td>
+					<MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditLink(link.Id))" />
+					<MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteLink(link.Id))" />
+				</td>
+			</tr>
+		}
+	</tbody>
+</MudSimpleTable>
+
+
+<MudTable Items="@AppInfoListItems" Class="ma-8" Filter="new Func<AppInfoListItem,bool>(FilterFuncSimple)">
+	<ColGroup>
+		<col style="width:50px;" />
+		<col />
+		<col />
+		<col style="width:100px;" />
+	</ColGroup>
+	<ToolBarContent>
+		<MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddAppInfo())">Add</MudButton>
+		<MudSpacer />
+		<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+	</ToolBarContent>
+	<HeaderContent>
+		<MudTh>Id</MudTh>
+		<MudTh>Title</MudTh>
+		<MudTh>Text</MudTh>
+		<MudTh></MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Id">@context.Id</MudTd>
+		<MudTd DataLabel="TextTitle">@context.TextTitle</MudTd>
+		<MudTd DataLabel="Text">@context.Text</MudTd>
+		<MudTd>
+			<MudButton Icon="@Icons.Material.Filled.Info" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => context.ShowDetails = !context.ShowDetails)">Show Media</MudButton>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditAppInfo(context.Id))" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAppInfo(context.Id))" />
+		</MudTd>
+	</RowTemplate>
+	<ChildRowContent>
+		@if (context.ShowDetails)
+		{
+			<MudTr>
+				<td colspan="4">
+					<MudCard Elevation="0">
+						<MudCardContent Class="pa-0">
+							<MudTable Items="@context.Images" Context="MediaContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="0">
+								<ColGroup>
+									<col />
+									<col />
+									<col />
+									<col />
+									<col style="width:200px;" />
+								</ColGroup>
+								<ToolBarContent>
+									<MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddImage(context.Id))">Add Image</MudButton>
+								</ToolBarContent>
+								<HeaderContent>
+									<MudTh>Id</MudTh>
+									<MudTh>Description</MudTh>
+									<MudTh>Name</MudTh>
+									<MudTh></MudTh>
+									<MudTh>Postal Code</MudTh>
+								</HeaderContent>
+								<RowTemplate>
+									<MudTd DataLabel="Id">@MediaContext.Id</MudTd>
+									<MudTd DataLabel="Description">@MediaContext.Description</MudTd>
+									<MudTd DataLabel="Name">@MediaContext.ImageName</MudTd>
+									<MudTd DataLabel="Postal Code">
+										<MudImage Src=@(Path.Combine(Settings.RootStaticFiles, Path.GetFileName(MediaContext.ImagePath))) Alt=@MediaContext.ImageName/>
+									</MudTd>
+									<MudTd>
+										<MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditImage(context.Id, MediaContext.Id))" />
+										<MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteImage(context.Id, MediaContext.Id))" />
+									</MudTd>
+								</RowTemplate>
+							</MudTable>
+						</MudCardContent>
+					</MudCard>
+				</td>
+			</MudTr>
+		}
+	</ChildRowContent>
+</MudTable>
+
+@code {
+
+	private string searchString = "";
+
+	[Parameter]
+	public int sectionId { get; set; }
+
+	private IEnumerable<AppInfoListItem> AppInfoListItems = new List<AppInfoListItem>();
+	private IEnumerable<LinkListItem> LinkListItems = new List<LinkListItem>();
+
+	private async Task ReloadData()
+	{
+		AppInfoListItems = await appInfoService.GetAppInfosBySectionId(sectionId);
+		LinkListItems = await linkService.GetLinksBySectionId(sectionId);
+
+		foreach(var item in AppInfoListItems)
+		{
+			item.Images = await imageService.GetImagesByAppInfoId(item.Id);
+		}
+	}
+
+	private async Task<IEnumerable<ImageListItem>> LoadImagesByAppInfo(int appInfoId)
+	{
+		 return await imageService.GetImagesByAppInfoId(appInfoId);
+	}
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			await ReloadData();
+		}
+
+		catch (Exception ex)
+		{
+			Snackbar.Add(ex.Message, Severity.Error);
+		}
+	}
+
+	private bool FilterFuncSimple(AppInfoListItem AppInfoListItem) => FilterFunc(AppInfoListItem, searchString);
+
+	private bool FilterFunc(AppInfoListItem AppInfoListItem, string searchString)
+	{
+		return
+			string.IsNullOrWhiteSpace(searchString)
+			||
+			AppInfoListItem.TextTitle.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+			||
+			AppInfoListItem.Text.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+		;
+	}
+
+	private async Task AddLink()
+	{
+		var parameters = new DialogParameters { };
+		parameters.Add("SectionId", sectionId);
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+		var dialog = DialogService.Show<LinkDialog>("Add link", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await linkService.AddLink(((LinkDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task EditLink(int linkId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("LinkId", linkId);
+		parameters.Add("SectionId", sectionId);
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+		var dialog = DialogService.Show<LinkDialog>("Edit link", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await linkService.EditLink(linkId, ((LinkDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task DeleteLink(int linkId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("ContentText", "Do you really want to delete this link? This process cannot be undone.");
+		parameters.Add("ButtonText", "Delete");
+		parameters.Add("Color", Color.Error);
+
+		var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+		var dialog = DialogService.Show<ConfirmationDialog>("Delete link", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await linkService.DeleteLink(linkId);
+			await ReloadData();
+		}
+	}
+
+
+
+	private async Task AddAppInfo()
+	{
+		var parameters = new DialogParameters { };
+		parameters.Add("SectionId", sectionId);
+
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+		var dialog = DialogService.Show<AppInfoDialog>("Add appInfo", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await appInfoService.AddAppInfo(((AppInfoDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task EditAppInfo(int appInfoId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("SectionId", sectionId);
+		parameters.Add("AppInfoId", appInfoId);
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+		var dialog = DialogService.Show<AppInfoDialog>("Edit section", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await appInfoService.EditAppInfo(appInfoId, ((AppInfoDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task DeleteAppInfo(int sectionId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("ContentText", "Do you really want to delete this app info? This process cannot be undone.");
+		parameters.Add("ButtonText", "Delete");
+		parameters.Add("Color", Color.Error);
+
+		var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+		var dialog = DialogService.Show<ConfirmationDialog>("Delete appInfo", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await appInfoService.DeleteAppInfo(sectionId);
+			await ReloadData();
+		}
+	}
+
+
+
+	private async Task AddImage(int appInfoId)
+	{
+		var parameters = new DialogParameters { };
+		parameters.Add("AppInfoId", appInfoId);
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+		var dialog = DialogService.Show<ImageDialog>("Add image", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await imageService.AddImage(((ImageDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task EditImage(int appInfoId, int imageId)
+	{ 
+		var parameters = new DialogParameters();
+		parameters.Add("AppInfoId", appInfoId);
+		parameters.Add("ImageId", imageId); 
+
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+		var dialog = DialogService.Show<ImageDialog>("Edit image", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await imageService.EditImage(imageId, ((ImageDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task DeleteImage(int appInfoId, int imageId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("ContentText", "Do you really want to delete this image? This process cannot be undone.");
+		parameters.Add("ButtonText", "Delete");
+		parameters.Add("Color", Color.Error);
+
+		var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+		var dialog = DialogService.Show<ConfirmationDialog>("Delete image", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await imageService.DeleteImage(imageId);
+			await ReloadData();
+		}
+	}
+}

@@ -4,6 +4,7 @@ using PromoWeb.Api.Configuration;
 using PromoWeb.Context;
 using PromoWeb.Services.Settings;
 using PromoWeb.Settings;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -14,8 +15,13 @@ var services = builder.Services;
 services.AddHttpContextAccessor();
 services.AddAppCors();
 
+https://stackoverflow.com/questions/65449615/custom-claim-not-accessible-in-authorizationhandlercontext-identity-server-4-jwt
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+
 var swaggerSettings = Settings.Load<SwaggerSettings>("Swagger");
 var identitySettings = Settings.Load<IdentitySettings>("Identity");
+
 
 services.AddAppHealthChecks();
 services.AddAppVersioning();

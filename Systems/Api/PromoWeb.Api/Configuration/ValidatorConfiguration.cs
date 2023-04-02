@@ -6,11 +6,11 @@ using FluentValidation.AspNetCore;
 using PromoWeb.Common.Responses;
 using PromoWeb.Common.Extensions;
 
-namespace PromoWeb.Api.Configuration  //https://docs.fluentvalidation.net/en/latest/aspnet.html
+namespace PromoWeb.Api.Configuration  //автовалидация
 {
     public static class ValidatorConfiguration
     {
-        public static IMvcBuilder AddValidator(this IMvcBuilder builder) //возврат списка ошибок
+        public static IMvcBuilder AddValidator(this IMvcBuilder builder) //форматтер вывода
         {//и это возвращается клиенту вместо того что вернул бы запрос (iactionresult)
             builder.ConfigureApiBehaviorOptions(options =>
             {
@@ -22,7 +22,7 @@ namespace PromoWeb.Api.Configuration  //https://docs.fluentvalidation.net/en/lat
                         if (state.ValidationState == ModelValidationState.Invalid)
                             fieldErrors.Add(new ErrorResponseFieldInfo()
                             {
-                                FieldName = field.ToCamelCase(), //привести в один вид
+                                FieldName = field.ToCamelCase(),
                                 Message = string.Join(", ", state.Errors.Select(x => x.ErrorMessage))
                             });
                     }
@@ -37,8 +37,6 @@ namespace PromoWeb.Api.Configuration  //https://docs.fluentvalidation.net/en/lat
                     return result;
                 };
             });
-
-            //те для валидации нужен mvcbuilder
 
             builder.AddFluentValidation(fv =>
             {

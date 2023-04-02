@@ -2,7 +2,7 @@
 {
     public class Answer : BaseEntity
     {
-        public DateTime Date { get; set; } //должно быть меньше вопроса
+        public DateTime Date { get; set; }
 
         public int QuestionId { get; set; }
         public virtual Question Question { get; set; }

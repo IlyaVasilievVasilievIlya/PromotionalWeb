@@ -1,0 +1,169 @@
+﻿@page "/questions"
+
+@layout MainLayout
+
+@inject IQuestionService questionService
+@inject IAnswerService  answerService
+
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+@*@attribute [Authorize]*@
+
+<MudText Typo="Typo.h4" Class="ma-8">Questions</MudText>
+
+<MudTable Items="@QuestionListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<QuestionListItem,bool>(FilterFuncSimple)">
+	<ColGroup>
+		<col style="width:50px;" />
+		<col />
+		<col />
+		<col />
+		<col />
+		<col />
+		<col style="width:100px;" />
+	</ColGroup>
+	<ToolBarContent>
+		<MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddQuestion())">Add Question</MudButton>
+		<MudSpacer />
+		<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+	</ToolBarContent>
+	<HeaderContent>
+		<MudTh>Id</MudTh>
+		<MudTh>Date</MudTh>
+		<MudTh>Text</MudTh>
+		<MudTh></MudTh>
+		<MudTh>Email</MudTh>
+		<MudTh>Answer</MudTh>
+		<MudTh></MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Id">@context.Id</MudTd>
+		<MudTd DataLabel="Date">@context.Date</MudTd>
+		<MudTd DataLabel="Text">@context.Text</MudTd>
+		<MudTd>
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteQuestion(context.Id))" />
+		</MudTd>
+		<MudTd DataLabel="Email">@context.Email</MudTd>
+		<MudTd DataLabel="Answer">@context.Answer</MudTd>
+		<MudTd>
+			<MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Disabled=@(!string.IsNullOrEmpty(context.Answer)) Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddAnswer(context.Id))" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Disabled=@(string.IsNullOrEmpty(context.Answer)) Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteAnswer(context.Id))" />
+		</MudTd>
+	</RowTemplate>
+</MudTable>
+
+
+@code {
+	private bool dense = false;
+	private bool hover = true;
+	private bool striped = true;
+	private bool bordered = false;
+
+	private string searchString = "";
+
+	private IEnumerable<QuestionListItem> QuestionListItems = new List<QuestionListItem>();
+
+	private async Task ReloadData()
+	{
+		QuestionListItems = await questionService.GetQuestions();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			await ReloadData();
+		}
+
+		catch (Exception ex)
+		{
+			Snackbar.Add(ex.Message, Severity.Error);
+		}
+	}
+
+	private bool FilterFuncSimple(QuestionListItem QuestionListItem) => FilterFunc(QuestionListItem, searchString);
+
+	private bool FilterFunc(QuestionListItem QuestionListItem, string searchString)
+	{
+		return
+			string.IsNullOrWhiteSpace(searchString)
+			||
+			QuestionListItem.Date.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+			||
+			QuestionListItem.Text.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+			||
+			QuestionListItem.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+			||
+			QuestionListItem.Answer.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+		;
+	}
+
+	private async Task AddQuestion()
+	{
+		var parameters = new DialogParameters { };
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+		var dialog = DialogService.Show<QuestionDialog>("Add question", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await questionService.AddQuestion(((QuestionDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task AddAnswer(int questionId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("QuestionId", questionId);
+
+		var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+		var dialog = DialogService.Show<AnswerDialog>("Add answer", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await answerService.AddAnswer(((AnswerDialog)dialog.Dialog).model);
+			await ReloadData();
+		}
+	}
+
+	private async Task DeleteQuestion(int questionId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("ContentText", "Do you really want to delete this question? This process cannot be undone.");
+		parameters.Add("ButtonText", "Delete");
+		parameters.Add("Color", Color.Error);
+
+		var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+		var dialog = DialogService.Show<ConfirmationDialog>("Delete question", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await questionService.DeleteQuestion(questionId);
+			await ReloadData();
+		}
+	}
+
+	private async Task DeleteAnswer(int questionId)
+	{
+		var parameters = new DialogParameters();
+		parameters.Add("ContentText", "Do you really want to delete this answer? This process cannot be undone.");
+		parameters.Add("ButtonText", "Delete");
+		parameters.Add("Color", Color.Error);
+
+		var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+		var dialog = DialogService.Show<ConfirmationDialog>("Delete question", parameters, options);
+		var result = await dialog.Result;
+
+		if (!result.Canceled)
+		{
+			await answerService.DeleteAnswer(questionId);
+			await ReloadData();
+		}
+	}
+}
