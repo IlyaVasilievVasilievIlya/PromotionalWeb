@@ -80,7 +80,7 @@ public class SectionService : ISectionService
 
         section = mapper.Map(model, section);
 
-        context.Sections.Update(section);
+        context.Sections.Update(section!);
         context.SaveChanges();
     }
 

@@ -12,7 +12,7 @@ namespace PromoWeb.Services.EmailSender
             this.settings = settings;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string? email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
 

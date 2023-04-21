@@ -67,6 +67,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{C163B0D2-5F1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Web", "Systems\Web\PromoWeb.Web\PromoWeb.Web.csproj", "{BDE2412B-1B83-48E8-96ED-25EC1465F27F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3D2FC527-BBF2-4EFE-A0BB-DE9BC0EA640F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromoWeb.Api.Test", "Test\PromoWeb.Api.Test\PromoWeb.Api.Test.csproj", "{7BB96729-5019-414E-8343-22AA2E288D9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +169,10 @@ Global
 		{BDE2412B-1B83-48E8-96ED-25EC1465F27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDE2412B-1B83-48E8-96ED-25EC1465F27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDE2412B-1B83-48E8-96ED-25EC1465F27F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB96729-5019-414E-8343-22AA2E288D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB96729-5019-414E-8343-22AA2E288D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB96729-5019-414E-8343-22AA2E288D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB96729-5019-414E-8343-22AA2E288D9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -197,6 +205,7 @@ Global
 		{6C366ED1-8CF6-4FEF-AAD7-390EA0484482} = {3EF2DF5A-9E09-42CB-975D-A949F17D7DCB}
 		{C163B0D2-5F1A-4A5A-BFFF-B4B39FC46BFA} = {CC9D92A0-B5A0-4D43-9EEC-BAA5A9BEDDDD}
 		{BDE2412B-1B83-48E8-96ED-25EC1465F27F} = {C163B0D2-5F1A-4A5A-BFFF-B4B39FC46BFA}
+		{7BB96729-5019-414E-8343-22AA2E288D9B} = {3D2FC527-BBF2-4EFE-A0BB-DE9BC0EA640F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07AAE465-DF07-4CDC-825A-6D9B6DA68405}

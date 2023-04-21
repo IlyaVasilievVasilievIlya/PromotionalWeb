@@ -13,22 +13,12 @@ namespace PromoWeb.Context
             var provider = $"{DbType.PostgreSQL}".ToLower(); //для команды migration in cli
 
             var configuration = new ConfigurationBuilder()
-                 .AddJsonFile("appsettings.context.json") //миграции для тестовой базы
+                 .AddJsonFile("appsettings.context.json")
                  .Build();
 
 
             DbContextOptions<MainDbContext> options;
-            /*if (provider.Equals($"{DbType.MSSQL}".ToLower()))
-            {
-                options = new DbContextOptionsBuilder<MainDbContext>()
-                        .UseSqlServer(
-                            configuration.GetConnectionString(provider),
-                            opts => opts
-                                .MigrationsAssembly($"{migrationProjectPrefix}{DbType.MSSQL}")
-                        )
-                        .Options;
-            }
-            else*/
+
             if (provider.Equals($"{DbType.PostgreSQL}".ToLower()))
             {
                 options = new DbContextOptionsBuilder<MainDbContext>()
@@ -45,7 +35,7 @@ namespace PromoWeb.Context
             }
 
             var dbf = new DbContextFactory(options); //создание maindbcontext и в конструкторе options
-            return dbf.Create();
+            return dbf.CreateContext();
         }
     }
 }

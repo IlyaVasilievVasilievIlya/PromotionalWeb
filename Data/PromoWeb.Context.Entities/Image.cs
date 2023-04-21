@@ -10,6 +10,6 @@ namespace PromoWeb.Context.Entities
         public int AppInfoId { get; set; }
         public virtual AppInfo AppInfo { get; set; }
 
-        public string ImagePath { get; set; }
+        public string UniqueName { get; set; }
     }
 }

@@ -14,29 +14,29 @@ namespace PromoWeb.Services.UserAccount
     public class UserAccountService : IUserAccountService //га каждый запрос в контроллере создаетсяс вновь
     {
         private readonly IMapper mapper;
-        private readonly UserManager<User> userManager;
         private readonly IAction actions;
+        private readonly UserManager<User> userManager;
         private readonly IModelValidator<RegisterUserAccountModel> registerUserAccountModelValidator;
+        private readonly IModelValidator<UpdateAccountModel> updateAccountModelValidator;
         private readonly IModelValidator<ForgotPasswordModel> forgotPasswordModelValidator;
         private readonly IModelValidator<ResetPasswordModel> resetPasswordModelValidator;
         private readonly IModelValidator<ChangePasswordModel> changePasswordModelValidator;
-        private readonly IModelValidator<UpdateAccountModel> updateAccountModelValidator;
 
 
 
-		public UserAccountService(IMapper mapper, UserManager<User> userManager, 
-            IModelValidator<RegisterUserAccountModel> registerUserAccountModelValidator, IAction actions, 
+		public UserAccountService(IMapper mapper, UserManager<User> userManager, IAction actions, 
+            IModelValidator<RegisterUserAccountModel> registerUserAccountModelValidator, IModelValidator<UpdateAccountModel> updateAccountModelValidator,
             IModelValidator<ForgotPasswordModel> forgotPasswordModelValidator, IModelValidator<ResetPasswordModel> resetPasswordModelValidator,
-            IModelValidator<ChangePasswordModel> changePasswordModelValidator, IModelValidator<UpdateAccountModel> updateAccountModelValidator)
+            IModelValidator<ChangePasswordModel> changePasswordModelValidator)
         {
             this.mapper = mapper;
+			this.actions = actions;
             this.userManager = userManager;
             this.registerUserAccountModelValidator = registerUserAccountModelValidator;
+            this.updateAccountModelValidator = updateAccountModelValidator;
             this.forgotPasswordModelValidator = forgotPasswordModelValidator;
             this.resetPasswordModelValidator = resetPasswordModelValidator;
             this.changePasswordModelValidator = changePasswordModelValidator;
-            this.updateAccountModelValidator = updateAccountModelValidator;
-			this.actions = actions;
         }
 
 		public async Task<IEnumerable<UserAccountModel>> GetAccounts()
@@ -79,7 +79,9 @@ namespace PromoWeb.Services.UserAccount
             if (!result.Succeeded)
                 throw new ProcessException($"Creating user account is wrong. {string.Join(", ", result.Errors.Select(s => s.Description))}");
 
-            await userManager.AddToRoleAsync(user, model.isAdmin ? "admin" : "moderator");
+            result = await userManager.AddToRoleAsync(user, model.isAdmin ? "admin" : "moderator");
+            if (!result.Succeeded)
+                throw new ProcessException($"Adding to role is wrong. {string.Join(", ", result.Errors.Select(s => s.Description))}");
 
 			await actions.SendEmail(new EmailModel
             {
@@ -108,8 +110,13 @@ namespace PromoWeb.Services.UserAccount
 
             if (!userRoles.Contains(newRole))
             {
-				await userManager.RemoveFromRolesAsync(user, userRoles);
-				await userManager.AddToRoleAsync(user, newRole);
+				var removeResult = await userManager.RemoveFromRolesAsync(user, userRoles);
+                if (!removeResult.Succeeded)
+					throw new ProcessException($"Changing role error. {string.Join(", ", removeResult.Errors.Select(s => s.Description))}");
+
+				var addResult = await userManager.AddToRoleAsync(user, newRole);
+                if (!removeResult.Succeeded)
+				    throw new ProcessException($"Changing role error. {string.Join(", ", addResult.Errors.Select(s => s.Description))}");
 			}
 
 			await userManager.UpdateAsync(user);

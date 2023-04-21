@@ -251,21 +251,21 @@ namespace PromoWeb.Context.MigrationsPostgreSQL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("UniqueName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppInfoId");
 
-                    b.HasIndex("ImageName")
+                    b.HasIndex("Uid")
                         .IsUnique();
 
-                    b.HasIndex("Uid")
+                    b.HasIndex("UniqueName")
                         .IsUnique();
 
                     b.ToTable("Images");
@@ -317,11 +317,6 @@ namespace PromoWeb.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("RecipientEmail")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 

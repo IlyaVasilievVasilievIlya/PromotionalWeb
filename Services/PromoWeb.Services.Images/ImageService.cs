@@ -75,7 +75,7 @@ public class ImageService : IImageService
 
     public async Task<ImageModel> AddImage(AddImageModel model)
     {
-        addImageModelValidator.CheckAsync(model);
+        addImageModelValidator.Check(model);
 
         using var context = await contextFactory.CreateDbContextAsync();
 
@@ -96,43 +96,18 @@ public class ImageService : IImageService
 
         ProcessException.ThrowIf(() => image is null, $"The image (id: {imageId}) was not found");
 
-		if (! await UniqueImageName(model.ImageName, imageId))
-			throw new ProcessException($"The image name must be unique");
-
-		string oldPath = new(image!.ImagePath);
         image = mapper.Map(model, image);
         context.Images.Update(image);
         context.SaveChanges();
-
-        File.Delete(oldPath);
-        using (FileStream stream = new FileStream(model.ImagePath, FileMode.Create))
-        {
-            await model.ImageStream.CopyToAsync(stream);
-        }
     }
-
-	public async Task<bool> UniqueImageName(string newImageName, int imageId)
-	{
-		using var context = await contextFactory.CreateDbContextAsync();
-
-		var image = await context.Images.FirstOrDefaultAsync(x => x.ImageName.ToUpper() == newImageName.ToUpper() && x.Id != imageId);
-
-		if (image == null)
-		{
-			return true;
-		}
-		return false;
-	}
 
 	public async Task DeleteImage(int imageId)
     {
         using var context = await contextFactory.CreateDbContextAsync();
 
-
         var image = await context.Images.FirstOrDefaultAsync(x => x.Id.Equals(imageId))
             ?? throw new ProcessException($"The image (id: {imageId}) was not found");
         context.Remove(image);
         context.SaveChanges();
-        File.Delete(image.ImagePath);
     }
 }

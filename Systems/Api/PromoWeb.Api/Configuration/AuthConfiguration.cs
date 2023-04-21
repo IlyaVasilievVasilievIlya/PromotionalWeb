@@ -35,18 +35,18 @@ namespace PromoWeb.Api.Configuration
 
 			services.AddAuthentication(options =>
             {
-                options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme; //строка "bearer" везде из is4
+                options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>   //получение токена для обработки
                 {
-                    options.RequireHttpsMetadata = settings.Url.StartsWith("https://"); //надо ли https
+                    options.RequireHttpsMetadata = settings.Url.StartsWith("https://");
                     options.Authority = settings.Url;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = false,
-                        ValidateIssuer = false, //если издатель не валидируется те не нужно подпись проверять?
+                        ValidateIssuer = false,
                         ValidateAudience = false,
                         RequireExpirationTime = true,
                         ValidateLifetime = true,

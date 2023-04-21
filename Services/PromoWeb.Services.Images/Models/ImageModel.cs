@@ -10,7 +10,7 @@ public class ImageModel
     public string Description { get; set; } = string.Empty;
     public string ImageName { get; set; } = string.Empty;
 
-    public string ImagePath { get; set; } = string.Empty;
+    public string UniqueName { get; set; } = string.Empty;
 
     public int AppInfoId { get; set; }
     public string AppInfo { get; set; } = string.Empty;

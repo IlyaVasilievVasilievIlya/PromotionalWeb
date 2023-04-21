@@ -9,6 +9,5 @@ namespace PromoWeb.Common.Validator
     public interface IModelValidator<T> where T : class
     {
         void Check(T model);
-        void CheckAsync(T model);
     }
 }

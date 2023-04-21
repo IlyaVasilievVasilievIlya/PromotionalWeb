@@ -95,7 +95,7 @@
 									<MudTd DataLabel="Description">@MediaContext.Description</MudTd>
 									<MudTd DataLabel="Name">@MediaContext.ImageName</MudTd>
 									<MudTd DataLabel="Postal Code">
-										<MudImage Src=@(Path.Combine(Settings.RootStaticFiles, Path.GetFileName(MediaContext.ImagePath))) Alt=@MediaContext.ImageName/>
+										<MudImage Src=@(Path.Combine(Settings.ImagesRoot, Path.GetFileName(MediaContext.UniqueName))) Alt=@MediaContext.ImageName/>
 									</MudTd>
 									<MudTd>
 										<MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditImage(context.Id, MediaContext.Id))" />

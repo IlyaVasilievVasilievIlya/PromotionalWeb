@@ -11,17 +11,13 @@ public class UpdateImageModel
     public string ImageName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
-    public Stream ImageStream { get; set; }
-
     public int AppInfoId { get; set; }
-    public string ImagePath { get; set; }
+    public string UniqueName { get; set; }
 }
 
 public class UpdateImageModelValidator : AbstractValidator<UpdateImageModel>
 {
-    private readonly IDbContextFactory<MainDbContext> contextFactory;
-
-    public UpdateImageModelValidator(IDbContextFactory<MainDbContext> contextFactory)
+    public UpdateImageModelValidator()
     {
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")
@@ -31,8 +27,8 @@ public class UpdateImageModelValidator : AbstractValidator<UpdateImageModel>
             .NotEmpty().WithMessage("Image name is required.")
             .MaximumLength(100).WithMessage("Image name is long.");
 
-        RuleFor(x => x.ImagePath)
-            .NotEmpty().WithMessage("Image path is required");
+        RuleFor(x => x.UniqueName)
+            .NotEmpty().WithMessage("Image filename is required");
     }
 }
 

@@ -2,7 +2,7 @@
 
 namespace PromoWeb.Context
 {
-    public class DbContextFactory //используется только для миграций, в di не заносится
+    public class DbContextFactory
     {
         private readonly DbContextOptions<MainDbContext> options;
 
@@ -11,7 +11,7 @@ namespace PromoWeb.Context
             this.options = options;
         }
 
-        public MainDbContext Create()
+        public MainDbContext CreateContext()
         {
             return new MainDbContext(options);
         }

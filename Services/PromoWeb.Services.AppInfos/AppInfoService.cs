@@ -33,7 +33,7 @@ namespace PromoWeb.Services.AppInfos
 
             var appinfos = context
                 .AppInfos
-                .Include(x => x.Section) //в модели просто имя отобразится
+                .Include(x => x.Section)
                 .AsQueryable();
 
             appinfos = appinfos
@@ -108,7 +108,7 @@ namespace PromoWeb.Services.AppInfos
             var info = await context.AppInfos.FirstOrDefaultAsync(x => x.Id.Equals(infoId))
                 ?? throw new ProcessException($"The appInfo (id: {infoId}) was not found");
 
-            context.Remove(info); //restrictы ведут к исключениям
+            context.Remove(info);
             context.SaveChanges();
         }
     }

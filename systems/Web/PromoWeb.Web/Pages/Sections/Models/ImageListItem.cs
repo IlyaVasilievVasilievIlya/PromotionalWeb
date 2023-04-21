@@ -7,6 +7,6 @@
 		public string Description { get; set; } = string.Empty;
 		public string ImageName { get; set; } = string.Empty;
 
-		public string ImagePath { get; set; }
+		public string UniqueName { get; set; }
 	}
 }

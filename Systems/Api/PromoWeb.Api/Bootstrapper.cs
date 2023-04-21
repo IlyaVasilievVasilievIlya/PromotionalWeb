@@ -27,9 +27,7 @@ namespace PromoWeb.Api
                 .AddAppInfoService()
                 .AddImageService()
                 .AddLinkService()
-                //.AddApiSpecialSettings()
                 .AddUserAccountService()
-                //.AddCache()
                 .AddRabbitMq()
                 .AddActions()
                 ;

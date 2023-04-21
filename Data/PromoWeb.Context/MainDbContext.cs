@@ -18,7 +18,7 @@ namespace PromoWeb.Context
         
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
-        { //вместо onconfigure Configure из designtime
+        {
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

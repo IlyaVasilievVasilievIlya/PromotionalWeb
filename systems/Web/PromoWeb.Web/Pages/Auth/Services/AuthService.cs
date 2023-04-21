@@ -48,7 +48,7 @@ namespace PromoWeb.Web
                 return loginResult;
             }
 
-            await _localStorage.SetItemAsync("authToken", loginResult.AccessToken); //сохранить в локалст
+            await _localStorage.SetItemAsync("authToken", loginResult.AccessToken); 
             await _localStorage.SetItemAsync("refreshToken", loginResult.RefreshToken);
 
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email!); //для authorize аннотации

@@ -22,7 +22,7 @@ namespace PromoWeb.Worker
         }
 
         private async Task Execute<T>(Func<T, Task> action)
-        {//T - emailSender, action(service)
+        {
             try
             {
                 using var scope = serviceProvider.CreateScope();
@@ -43,7 +43,7 @@ namespace PromoWeb.Worker
         public void Start()
         {
             rabbitMq.Subscribe<EmailModel>(RabbitMqTaskQueueNames.SEND_EMAIL, async data
-                => await Execute<IEmailSender>(async service => //service -> EmailSender
+                => await Execute<IEmailSender>(async service =>
                 {
                     logger.LogDebug($"RABBITMQ::: {RabbitMqTaskQueueNames.SEND_EMAIL}: {data.Email} {data.Message}");
                     await service.Send(data);

@@ -13,9 +13,9 @@ namespace PromoWeb.Context.Entities.Configuration
 
             builder.Property(entity => entity.ImageName).IsRequired().HasMaxLength(100);
 
-            builder.Property(entity => entity.ImagePath).IsRequired();
+            builder.Property(entity => entity.UniqueName).IsRequired();
 
-            builder.HasIndex(entity => entity.ImageName).IsUnique();
+            builder.HasIndex(entity => entity.UniqueName).IsUnique();
 
             builder.HasOne(a => a.AppInfo)
                 .WithMany(b => b.Screenshots)

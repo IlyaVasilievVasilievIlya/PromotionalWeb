@@ -25,7 +25,7 @@ namespace PromoWeb.Common.Helpers
                                  ValidatorType = type
                              };
 
-            validators.ToList().ForEach(x => { services.AddSingleton(x.InterfaceType, x.ValidatorType); }); //добавить сразу все валидаторы для моделек 2х уровней
+            validators.ToList().ForEach(x => { services.AddSingleton(x.InterfaceType, x.ValidatorType); });
         }
     }
 }

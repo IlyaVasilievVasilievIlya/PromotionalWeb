@@ -24,16 +24,18 @@ namespace PromoWeb.Api.Middlewares
             catch (ProcessException pe)
             {
                 response = pe.ToErrorResponse();
-            }
+				context.Response.StatusCode = StatusCodes.Status400BadRequest;
+			}
             catch (Exception pe)
             {
                 response = pe.ToErrorResponse();
-            }
+				context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+			}
             finally
             {
                 if (response is not null)
                 {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    //context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(JsonSerializer.Serialize(response));
                     await context.Response.StartAsync();

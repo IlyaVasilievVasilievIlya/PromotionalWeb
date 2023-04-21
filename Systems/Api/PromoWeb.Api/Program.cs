@@ -15,7 +15,6 @@ var services = builder.Services;
 services.AddHttpContextAccessor();
 services.AddAppCors();
 
-https://stackoverflow.com/questions/65449615/custom-claim-not-accessible-in-authorizationhandlercontext-identity-server-4-jwt
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
@@ -44,7 +43,7 @@ app.UseAppCors();
 app.UseAppHealthChecks();
 app.UseStaticFiles();
 app.UseAppSwagger();
-app.UseAppAuth(); //useauthx2
+app.UseAppAuth();
 
 app.UseAppControllerAndViews();
 app.Run();
