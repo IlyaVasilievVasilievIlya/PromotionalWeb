@@ -42,12 +42,6 @@ namespace PromoWeb.Services.RabbitMq
 
             channel.BasicConsume(queueName, false, consumer);
         }
-        //в случае с отправкой письма юзеру 1.срабатывает received когда потребитель получил сообщение,
-        //2.вызывается onReceive (eventhandler<...> onReceive, там распаковка и вызов OnDataReceiveEvent<T> onReceive
-        //3.там вызов execute
-        //4.тот вызывает Func<T, Task> Action, и в нем уже вызывается метод Send у сервиса отправки почты (просто лог)
-        //
-
 
 
         private async Task Publish<T>(string queueName, T data)

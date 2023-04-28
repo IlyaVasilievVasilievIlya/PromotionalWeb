@@ -52,9 +52,9 @@ public class QuestionsController : ControllerBase
     }
 
     /// <summary>
-    /// Get questions by Id
+    /// Get question by Id
     /// </summary>
-    /// <response code="200">QuestionResponse></response>
+    /// <response code="200">QuestionResponse</response>
     [ProducesResponseType(typeof(QuestionResponse), 200)]
     [HttpGet("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
@@ -66,7 +66,11 @@ public class QuestionsController : ControllerBase
         return response;
     }
 
-    [HttpPost("")]
+	/// <summary>
+	/// Add question
+	/// </summary>
+	/// <response code="200">QuestionResponse</response>
+	[HttpPost("")]
 	public async Task<QuestionResponse> AddQuestion([FromBody] AddQuestionRequest request)
     {
         var model = mapper.Map<AddQuestionModel>(request);
@@ -77,7 +81,12 @@ public class QuestionsController : ControllerBase
         return response;
     }
 
-    [HttpDelete("{id}")]
+	/// <summary>
+	/// Delete question
+	/// </summary>
+	/// <param name="id">Id of section to be deleted</param>
+	/// <response code="200"></response>
+	[HttpDelete("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> DeleteQuestion([FromRoute] int id)
     {

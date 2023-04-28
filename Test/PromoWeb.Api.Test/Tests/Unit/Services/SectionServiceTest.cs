@@ -2,6 +2,7 @@
 using Moq;
 using PromoWeb.Common.Exceptions;
 using PromoWeb.Context;
+using PromoWeb.Context.Entities;
 using PromoWeb.Services.Sections;
 
 namespace PromoWeb.Api.Test.Tests.Unit.Services
@@ -191,6 +192,19 @@ namespace PromoWeb.Api.Test.Tests.Unit.Services
 		public void DeleteSection_ThrowsProcessExceptionNotFound()
 		{
 			Assert.ThrowsAsync(typeof(ProcessException), async () => await service.DeleteSection(100));
+		}
+
+		[Test]
+		public void DeleteSection_SectionContainsLinks_ThrowsProcessException()
+		{
+			using (var context = new MainDbContext(options))
+			{
+				context.Database.EnsureCreated();
+				context.Links.AddRange(new Link { Id = 1, SectionId = 1, LinkText = "", Description = "" });
+				context.SaveChanges();
+			}
+
+			Assert.ThrowsAsync(typeof(ProcessException), async () => await service.DeleteSection(1));
 		}
 	}
 }

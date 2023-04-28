@@ -6,6 +6,9 @@ namespace PromoWeb.Api.Controllers.Accounts.Models
 {
 	public class ForgotPasswordRequest
 	{
+		/// <summary>
+		/// User email to send token for recovery
+		/// </summary>
 		public string Email { get; set; }
 	}
 

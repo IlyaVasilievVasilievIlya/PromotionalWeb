@@ -29,7 +29,10 @@ public class AddImageModelValidator : AbstractValidator<AddImageModel>
 
         RuleFor(x => x.UniqueName)
             .NotEmpty().WithMessage("Image filename is required");
-    }
+
+		RuleFor(x => x.AppInfoId)
+	        .NotEmpty().WithMessage("AppInfo id is required.");
+	}
 }
 
 public class AddImageModelProfile : Profile

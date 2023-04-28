@@ -12,7 +12,7 @@ namespace PromoWeb.Common.Helpers
         public static void Register(IServiceCollection services)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(s => s.FullName != null && s.FullName.ToLower().StartsWith("promoweb.")); //для всех сразу в di
+                .Where(s => s.FullName != null && s.FullName.ToLower().StartsWith("promoweb."));
 
             services.AddAutoMapper(assemblies);
         }

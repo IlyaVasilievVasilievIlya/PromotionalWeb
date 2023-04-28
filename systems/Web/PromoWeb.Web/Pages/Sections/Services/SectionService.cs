@@ -24,7 +24,7 @@ namespace PromoWeb.Web
             {
                 throw new Exception(content);
             }
-			//попытка десериализации с парсингом contactresponce -> contactmlistitem,иначе пустой список
+
             var data = JsonSerializer.Deserialize<IEnumerable<SectionListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<SectionListItem>();
 
                 return data;
@@ -51,8 +51,8 @@ namespace PromoWeb.Web
 		{
 			string url = $"{Settings.ApiRoot}/v1/sections";
 
-			var body = JsonSerializer.Serialize(model); //в тело запроса
-			var request = new StringContent(body, Encoding.UTF8, "application/json"); //кодировка тела запроса
+			var body = JsonSerializer.Serialize(model);
+			var request = new StringContent(body, Encoding.UTF8, "application/json");
 			var response = await _httpClient.PostAsync(url, request);
 
 			var content = await response.Content.ReadAsStringAsync();
@@ -85,7 +85,7 @@ namespace PromoWeb.Web
 			string url = $"{Settings.ApiRoot}/v1/sections/{sectionId}";
 
 			var response = await _httpClient.DeleteAsync(url);
-			var content = await response.Content.ReadAsStringAsync(); //внутри вернет iactionresult (код ок)
+			var content = await response.Content.ReadAsStringAsync();
 
 			if (!response.IsSuccessStatusCode)
 			{

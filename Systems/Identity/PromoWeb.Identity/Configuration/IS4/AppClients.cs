@@ -14,7 +14,7 @@ namespace PromoWeb.Identity.Configuration
                     ClientId = "swagger",
                     ClientSecrets =
                     {
-                        new Secret("B3AT_HaPp3ZZIng".Sha256())
+                        new Secret("secret".Sha256())
                     },
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials, //нет юзера за клиентом
@@ -32,7 +32,7 @@ namespace PromoWeb.Identity.Configuration
                     ClientId = "frontend",
                     ClientSecrets =
                     {
-                        new Secret("B3AT_HaPp3ZZIng".Sha256())
+                        new Secret("secret".Sha256())
                     },
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,

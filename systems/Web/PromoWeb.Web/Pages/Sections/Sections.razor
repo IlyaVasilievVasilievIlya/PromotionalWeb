@@ -4,14 +4,10 @@
 
 @inject ISectionService sectionService
 
-<!--повесить атрибуты авторизации(если на чтение не делать, то править бэк)-->
-
-<!--Это все для кнопок управления-->
-@*inject NavigationManager navigationManager*@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
-@*@attribute [Authorize]*@
+@attribute [Authorize]
 
 <MudText Typo="Typo.h4" Class="ma-8">Sections</MudText>
 
@@ -44,10 +40,10 @@
 
 
 @code {
-	private bool dense = false;  //уплотнить таблицу
-	private bool hover = true; //выделяться при наведении
-	private bool striped = true; //в полоску
-	private bool bordered = false; //с границами
+	private bool dense = false;
+	private bool hover = true;
+	private bool striped = true;
+	private bool bordered = false;
 
 	private string searchString = "";
 

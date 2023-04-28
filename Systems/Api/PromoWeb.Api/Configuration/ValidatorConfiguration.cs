@@ -11,7 +11,7 @@ namespace PromoWeb.Api.Configuration  //автовалидация
     public static class ValidatorConfiguration
     {
         public static IMvcBuilder AddValidator(this IMvcBuilder builder) //форматтер вывода
-        {//и это возвращается клиенту вместо того что вернул бы запрос (iactionresult)
+        {
             builder.ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>

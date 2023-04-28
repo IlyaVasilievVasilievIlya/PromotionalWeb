@@ -39,7 +39,7 @@ namespace PromoWeb.Api.Configuration
                 options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
             })
-                .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>   //получение токена для обработки
+                .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
                 {
                     options.RequireHttpsMetadata = settings.Url.StartsWith("https://");
                     options.Authority = settings.Url;
@@ -59,7 +59,7 @@ namespace PromoWeb.Api.Configuration
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(AppScopes.AppApi, policy => policy.RequireClaim("scope", AppScopes.AppApi));
-                options.AddPolicy("admin",  policy => policy.RequireClaim("role", "admin"));
+                options.AddPolicy(Roles.Admin,  policy => policy.RequireClaim("role", Roles.Admin));
             });
 
             return services;

@@ -61,6 +61,140 @@
             </summary>
             <param name="services">Services collection</param>
         </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.GetAccounts">
+            <summary>
+            Get user accounts
+            </summary>
+            <response code="200">List of UserAccountResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.Register(PromoWeb.Api.Controllers.Accounts.Models.RegisterUserAccountRequest)">
+            <summary>
+            Register user account
+            </summary>
+            <response code="200">UserAccountResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.UpdateAccount(System.String,PromoWeb.Api.Controllers.Accounts.Models.UpdateAccountRequest)">
+            <summary>
+            Update user account
+            </summary>
+            <param name="userName">Unique user name</param>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.ChangePassword(PromoWeb.Api.Controllers.Accounts.Models.ChangePasswordRequest)">
+            <summary>
+            Change password
+            </summary>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.ForgotPassword(PromoWeb.Api.Controllers.Accounts.Models.ForgotPasswordRequest)">
+            <summary>
+            Password recovery
+            </summary>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.ResetPassword(PromoWeb.Api.Controllers.Accounts.Models.ResetPasswordRequest)">
+            <summary>
+            Password recovery
+            </summary>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.Accounts.AccountsController.DeleteAccount(System.String)">
+            <summary>
+            Delete user account
+            </summary>
+            <param name="userName">Unique user name</param>
+            <response code="200"></response>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ChangePasswordRequest.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ChangePasswordRequest.NewPassword">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ChangePasswordRequest.OldPassword">
+            <summary>
+            Old password
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ForgotPasswordRequest.Email">
+            <summary>
+            User email to send token for recovery
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.RegisterUserAccountRequest.Name">
+            <summary>
+            User full name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.RegisterUserAccountRequest.Email">
+            <summary>
+            User email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.RegisterUserAccountRequest.Password">
+            <summary>
+            User password
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.RegisterUserAccountRequest.isAdmin">
+            <summary>
+            Has admin role
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ResetPasswordRequest.Email">
+            <summary>
+            User email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ResetPasswordRequest.Password">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.ResetPasswordRequest.Code">
+            <summary>
+            Password recovery secret code
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UpdateAccountRequest.Email">
+            <summary>
+            User email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UpdateAccountRequest.FullName">
+            <summary>
+            User full name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UpdateAccountRequest.isAdmin">
+            <summary>
+            Has admin role
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UserAccountResponse.Id">
+            <summary>
+            User Id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UserAccountResponse.Name">
+            <summary>
+            User full name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UserAccountResponse.Email">
+            <summary>
+            User email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.Accounts.Models.UserAccountResponse.Role">
+            <summary>
+            User role
+            </summary>
+        </member>
         <member name="T:PromoWeb.Api.Controllers.AnswersController">
             <summary>
             Answers controller
@@ -80,9 +214,23 @@
         </member>
         <member name="M:PromoWeb.Api.Controllers.AnswersController.GetAnswerById(System.Int32)">
             <summary>
-            Get answers by Id
+            Get answer by Id
             </summary>
-            <response code="200">AnswerResponse></response>
+            <response code="200">AnswerResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AnswersController.AddAnswer(PromoWeb.Services.Answers.AddAnswerRequest)">
+            <summary>
+            Add answer
+            </summary>
+            <param name="request">AddAnswerRequest object</param>
+            <response code="200">AnswerResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AnswersController.DeleteAnswer(System.Int32)">
+            <summary>
+            Delete answer
+            </summary>
+            <param name="id">Id of answer to be deleted</param>
+            <response code="200"></response>
         </member>
         <member name="T:PromoWeb.Api.Controllers.AppInfosController">
             <summary>
@@ -101,11 +249,38 @@
             <param name="limit">Count elements on the page</param>
             <response code="200">List of AppInfoResponses</response>
         </member>
+        <member name="M:PromoWeb.Api.Controllers.AppInfosController.GetAppInfosBySectionId(System.Int32)">
+            <summary>
+            Get appInfos by section
+            </summary>
+            <param name="sectionId">Section id</param>
+            <response code="200">List of AppInfoResponses</response>
+        </member>
         <member name="M:PromoWeb.Api.Controllers.AppInfosController.GetAppInfoById(System.Int32)">
             <summary>
-            Get appInfos by Id
+            Get appInfo by Id
             </summary>
-            <response code="200">AppInfoResponse></response>
+            <response code="200">AppInfoResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AppInfosController.AddAppInfo(PromoWeb.Api.AppInfos.AddAppInfoRequest)">
+            <summary>
+            Add appInfo
+            </summary>
+            <response code="200">AppInfoResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AppInfosController.UpdateAppInfo(System.Int32,PromoWeb.Api.AppInfos.UpdateAppInfoRequest)">
+            <summary>
+            Update appInfo
+            </summary>
+            <param name="id">AppInfo id to be updated</param>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.AppInfosController.DeleteAppInfo(System.Int32)">
+            <summary>
+            Delete appInfo
+            </summary>
+            <param name="id">AppInfo id to be deleted</param>
+            <response code="200"></response>
         </member>
         <member name="T:PromoWeb.Api.Controllers.ContactsController">
             <summary>
@@ -126,9 +301,29 @@
         </member>
         <member name="M:PromoWeb.Api.Controllers.ContactsController.GetContactById(System.Int32)">
             <summary>
-            Get contacts by Id
+            Get contact by Id
             </summary>
-            <response code="200">ContactResponse></response>
+            <response code="200">ContactResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ContactsController.AddContact(PromoWeb.Api.Contacts.AddContactRequest)">
+            <summary>
+            Add contact
+            </summary>
+            <response code="200">ContactResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ContactsController.UpdateContact(System.Int32,PromoWeb.Api.Contacts.UpdateContactRequest)">
+            <summary>
+            Update contact
+            </summary>
+            <param name="id">Id of contact to be updated</param>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ContactsController.DeleteContact(System.Int32)">
+            <summary>
+            Delete contact
+            </summary>
+            <param name="id">Id of contact to be deleted</param>
+            <response code="200"></response>
         </member>
         <member name="T:PromoWeb.Api.Controllers.ImagesController">
             <summary>
@@ -149,9 +344,36 @@
         </member>
         <member name="M:PromoWeb.Api.Controllers.ImagesController.GetImageById(System.Int32)">
             <summary>
-            Get images by Id
+            Get image by Id
             </summary>
-            <response code="200">ImageResponse></response>
+            <response code="200">ImageResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ImagesController.GetImagesByAppInfoId(System.Int32)">
+            <summary>
+            Get images by appinfo
+            </summary>
+            <param name="appInfoId">Id of AppInfo</param>
+            <response code="200">List of ImageResponses</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ImagesController.AddImage(PromoWeb.Api.Images.AddImageRequest)">
+            <summary>
+            Add image
+            </summary>
+            <response code="200">ImageResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ImagesController.UpdateImage(System.Int32,PromoWeb.Api.Images.UpdateImageRequest)">
+            <summary>
+            Update image
+            </summary>
+            <param name="id">Id of image to be updated</param>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.ImagesController.DeleteImage(System.Int32)">
+            <summary>
+            Delete image
+            </summary>
+            <param name="id">Id of image to be deleted</param>
+            <response code="200"></response>
         </member>
         <member name="T:PromoWeb.Api.Controllers.LinksController">
             <summary>
@@ -170,11 +392,73 @@
             <param name="limit">Count elements on the page</param>
             <response code="200">List of LinkResponses</response>
         </member>
+        <member name="M:PromoWeb.Api.Controllers.LinksController.GetLinksBySectionId(System.Int32)">
+            <summary>
+            Get links by section
+            </summary>
+            <param name="sectionId">Section Id</param>
+            <response code="200">List of LinkResponses</response>
+        </member>
         <member name="M:PromoWeb.Api.Controllers.LinksController.GetLinkById(System.Int32)">
             <summary>
-            Get links by Id
+            Get link by Id
+            </summary>
+            <response code="200">LinkResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.LinksController.AddLink(PromoWeb.Api.Links.AddLinkRequest)">
+            <summary>
+            Add link
             </summary>
             <response code="200">LinkResponse></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.LinksController.UpdateLink(System.Int32,PromoWeb.Api.Links.UpdateLinkRequest)">
+            <summary>
+            Update link
+            </summary>
+            <param name="id">Id of link to be updated</param>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.LinksController.DeleteLink(System.Int32)">
+            <summary>
+            Delete link
+            </summary>
+            <param name="id">Id of link to be deleted</param>
+            <response code="200"></response>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.AddQuestionRequest.Text">
+            <summary>
+            Question's text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.AddQuestionRequest.Email">
+            <summary>
+            Send answer by email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.QuestionResponse.Id">
+            <summary>
+            Question Id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.QuestionResponse.Date">
+            <summary>
+            Creation date
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.QuestionResponse.Text">
+            <summary>
+            Question text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.QuestionResponse.Email">
+            <summary>
+            Email for answer
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Controllers.QuestionResponse.Answer">
+            <summary>
+            Answer
+            </summary>
         </member>
         <member name="T:PromoWeb.Api.Controllers.QuestionsController">
             <summary>
@@ -195,9 +479,22 @@
         </member>
         <member name="M:PromoWeb.Api.Controllers.QuestionsController.GetQuestionById(System.Int32)">
             <summary>
-            Get questions by Id
+            Get question by Id
             </summary>
-            <response code="200">QuestionResponse></response>
+            <response code="200">QuestionResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.QuestionsController.AddQuestion(PromoWeb.Api.Controllers.AddQuestionRequest)">
+            <summary>
+            Add question
+            </summary>
+            <response code="200">QuestionResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.QuestionsController.DeleteQuestion(System.Int32)">
+            <summary>
+            Delete question
+            </summary>
+            <param name="id">Id of section to be deleted</param>
+            <response code="200"></response>
         </member>
         <member name="T:PromoWeb.Api.Controllers.SectionsController">
             <summary>
@@ -218,9 +515,29 @@
         </member>
         <member name="M:PromoWeb.Api.Controllers.SectionsController.GetSectionById(System.Int32)">
             <summary>
-            Get sections by Id
+            Get section by Id
             </summary>
-            <response code="200">SectionResponse></response>
+            <response code="200">SectionResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.SectionsController.AddSection(PromoWeb.Api.Sections.AddSectionRequest)">
+            <summary>
+            Add section
+            </summary>
+            <response code="200">SectionResponse</response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.SectionsController.UpdateSection(System.Int32,PromoWeb.Api.Sections.UpdateSectionRequest)">
+            <summary>
+            Update section
+            </summary>
+            <param name="id">Id of section to be updated</param>
+            <response code="200"></response>
+        </member>
+        <member name="M:PromoWeb.Api.Controllers.SectionsController.DeleteSection(System.Int32)">
+            <summary>
+            Delete section
+            </summary>
+            <param name="id">Id of section to be deleted</param>
+            <response code="200"></response>
         </member>
         <member name="M:PromoWeb.Api.Controllers.TestController.GetData1">
             <summary>
@@ -233,6 +550,326 @@
             Get data 2
             </summary>
             <response code="200">String items</response>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AddAppInfoRequest.TextTitle">
+            <summary>
+            AppInfo title
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AddAppInfoRequest.Text">
+            <summary>
+            AppInfo text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AddAppInfoRequest.SectionId">
+            <summary>
+            Section that the appinfo will belong to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AppInfoResponse.Id">
+            <summary>
+            AppInfo id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AppInfoResponse.TextTitle">
+            <summary>
+            AppInfo title
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AppInfoResponse.Text">
+            <summary>
+            AppInfo text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AppInfoResponse.SectionId">
+            <summary>
+            Section that the appinfo belongs to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.AppInfoResponse.Section">
+            <summary>
+            Section that the appinfo belongs to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.UpdateAppInfoRequest.TextTitle">
+            <summary>
+            AppInfo title
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.UpdateAppInfoRequest.Text">
+            <summary>
+            AppInfo text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.AppInfos.UpdateAppInfoRequest.SectionId">
+            <summary>
+            Section that the appinfo will belong to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.AddContactRequest.ContactOwner">
+            <summary>
+            Whose contact is this
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.AddContactRequest.Email">
+            <summary>
+            Contact email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.AddContactRequest.Address">
+            <summary>
+            Contact address
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.AddContactRequest.WebSite">
+            <summary>
+            Contact website
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.AddContactRequest.Phone">
+            <summary>
+            Contact phone
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.ContactResponse.Id">
+            <summary>
+            Contact id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.ContactResponse.ContactOwner">
+            <summary>
+            Contact owner
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.ContactResponse.Email">
+            <summary>
+            Contact email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.ContactResponse.Address">
+            <summary>
+            Contact address
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.ContactResponse.WebSite">
+            <summary>
+            Contact website
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.ContactResponse.Phone">
+            <summary>
+            Contact phone
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.UpdateContactRequest.ContactOwner">
+            <summary>
+            Whose contact is this
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.UpdateContactRequest.Email">
+            <summary>
+            Contact email
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.UpdateContactRequest.Address">
+            <summary>
+            Contact address
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.UpdateContactRequest.WebSite">
+            <summary>
+            Contact website
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Contacts.UpdateContactRequest.Phone">
+            <summary>
+            Contact phone
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.AddImageRequest.ImageName">
+            <summary>
+            Image name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.AddImageRequest.Description">
+            <summary>
+            Image description
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.AddImageRequest.AppInfoId">
+            <summary>
+            Info block that the photo will belong to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.AddImageRequest.Image">
+            <summary>
+            Upload image file
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.ImageResponse.Id">
+            <summary>
+            Image id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.ImageResponse.ImageName">
+            <summary>
+            Image name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.ImageResponse.Description">
+            <summary>
+            Image description
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.ImageResponse.UniqueName">
+            <summary>
+            Image file name for saving in FS
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.ImageResponse.AppInfoId">
+            <summary>
+            Info block that the photo belongs to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.ImageResponse.AppInfo">
+            <summary>
+            Info block that the photo belongs to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.UpdateImageRequest.ImageName">
+            <summary>
+            Image name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.UpdateImageRequest.Description">
+            <summary>
+            Image description
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.UpdateImageRequest.AppInfoId">
+            <summary>
+            Info block that the photo will belong to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Images.UpdateImageRequest.Image">
+            <summary>
+            Upload image file
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.AddLinkRequest.LinkText">
+            <summary>
+            Link
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.AddLinkRequest.Description">
+            <summary>
+            Link description
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.AddLinkRequest.SectionId">
+            <summary>
+            Section that the link will belong to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.LinkResponse.Id">
+            <summary>
+            Link id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.LinkResponse.LinkText">
+            <summary>
+            Link
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.LinkResponse.Description">
+            <summary>
+            Link description
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.LinkResponse.SectionId">
+            <summary>
+            Section that the link belongs to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.LinkResponse.Section">
+            <summary>
+            Section that the link belongs to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.UpdateLinkRequest.LinkText">
+            <summary>
+            Link
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.UpdateLinkRequest.Description">
+            <summary>
+            Link description
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Links.UpdateLinkRequest.SectionId">
+            <summary>
+            Section that the link will belong to
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Sections.AddSectionRequest.SectionName">
+            <summary>
+            Section name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Sections.SectionResponse.Id">
+            <summary>
+            Section id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Sections.SectionResponse.SectionName">
+            <summary>
+            Section name
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Api.Sections.UpdateSectionRequest.SectionName">
+            <summary>
+            Section name
+            </summary>
+        </member>
+        <member name="T:PromoWeb.Services.Answers.AddAnswerRequest">
+            <summary>
+            Answer request model
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AddAnswerRequest.QuestionId">
+            <summary>
+            Question id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AddAnswerRequest.Text">
+            <summary>
+            Answer text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AnswerResponse.Id">
+            <summary>
+            Answer id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AnswerResponse.QuestionId">
+            <summary>
+            Question id
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AnswerResponse.Question">
+            <summary>
+            Question text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AnswerResponse.Text">
+            <summary>
+            Answer text
+            </summary>
+        </member>
+        <member name="P:PromoWeb.Services.Answers.AnswerResponse.Date">
+            <summary>
+            Answer date
+            </summary>
         </member>
     </members>
 </doc>

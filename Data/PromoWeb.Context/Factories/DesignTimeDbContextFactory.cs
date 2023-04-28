@@ -10,7 +10,7 @@ namespace PromoWeb.Context
 
         public MainDbContext CreateDbContext(string[] args)
         {
-            var provider = $"{DbType.PostgreSQL}".ToLower(); //для команды migration in cli
+            var provider = $"{DbType.PostgreSQL}".ToLower();
 
             var configuration = new ConfigurationBuilder()
                  .AddJsonFile("appsettings.context.json")
@@ -34,7 +34,7 @@ namespace PromoWeb.Context
                 throw new Exception($"Unsupported provider: {provider}");
             }
 
-            var dbf = new DbContextFactory(options); //создание maindbcontext и в конструкторе options
+            var dbf = new DbContextFactory(options);
             return dbf.CreateContext();
         }
     }

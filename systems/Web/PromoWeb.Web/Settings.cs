@@ -7,6 +7,6 @@
         
         public static string IdentityRoot = "http://localhost:10001";
         public static string ClientId = "frontend";
-        public static string ClientSecret = "B3AT_HaPp3ZZIng";
+        public static string ClientSecret = "secret";
     }
 }

@@ -1,8 +1,8 @@
 ﻿@using PromoWeb.Web.Pages.Auth
 @using Microsoft.AspNetCore.Components.Authorization
 
-<CascadingAuthenticationState>@*это компоненты блазора, чит. докумен-цию*\*@
-    <Router AppAssembly="@typeof(App).Assembly"> <!--для каждой страницы где определен маршрут срабатывает-->
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(SimpleLayout)">
                 <Authorizing>
@@ -11,7 +11,7 @@
                  <NotAuthorized>
                         @if (@context.User.Identity?.IsAuthenticated is true)
                         {
-                            <p>You are not authorized to be here.</p> <!--когда это сработает?-->
+                            <p>You are not authorized to be here.</p>
                         }
                         else
                         {

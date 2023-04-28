@@ -74,6 +74,7 @@ namespace PromoWeb.Api.Test.Tests.Unit.Services
 		public void ClearDb()
 		{
 			using var context = new MainDbContext(options);
+			context.Links.RemoveRange(context.Links);
 			context.Sections.RemoveRange(context.Sections);
 			context.SaveChanges();
 		}

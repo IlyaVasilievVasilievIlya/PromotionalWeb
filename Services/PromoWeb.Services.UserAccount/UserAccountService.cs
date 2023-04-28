@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Data;
+using PromoWeb.Common.Security;
 
 namespace PromoWeb.Services.UserAccount
 {
-    public class UserAccountService : IUserAccountService //га каждый запрос в контроллере создаетсяс вновь
+    public class UserAccountService : IUserAccountService
     {
         private readonly IMapper mapper;
         private readonly IAction actions;
@@ -46,7 +47,7 @@ namespace PromoWeb.Services.UserAccount
             var data = (await users.ToListAsync())
                 .Select(user => new UserAccountModel
                 {   
-                    Role = userManager.IsInRoleAsync(user, "admin").Result ? "admin" : "moderator",
+                    Role = userManager.IsInRoleAsync(user, Roles.Admin).Result ? Roles.Admin : Roles.Moderator,
                     Email = user.Email,
                     Id = user.Id, 
                     Name = user.FullName 
@@ -79,7 +80,7 @@ namespace PromoWeb.Services.UserAccount
             if (!result.Succeeded)
                 throw new ProcessException($"Creating user account is wrong. {string.Join(", ", result.Errors.Select(s => s.Description))}");
 
-            result = await userManager.AddToRoleAsync(user, model.isAdmin ? "admin" : "moderator");
+            result = await userManager.AddToRoleAsync(user, model.isAdmin ? Roles.Admin : Roles.Moderator);
             if (!result.Succeeded)
                 throw new ProcessException($"Adding to role is wrong. {string.Join(", ", result.Errors.Select(s => s.Description))}");
 
@@ -104,7 +105,7 @@ namespace PromoWeb.Services.UserAccount
             user.UserName = model.Email;
             user.FullName = model.FullName;
 
-            string newRole = model.isAdmin ? "admin" : "moderator";
+            string newRole = model.isAdmin ? Roles.Admin : Roles.Moderator;
 
 			var userRoles = await userManager.GetRolesAsync(user);
 

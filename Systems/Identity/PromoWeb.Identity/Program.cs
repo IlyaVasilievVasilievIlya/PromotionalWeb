@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Configuration;
 using PromoWeb.Context;
 using PromoWeb.Identity;
 using PromoWeb.Identity.Configuration;
+using PromoWeb.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +26,9 @@ app.UseAppCors();
 
 app.UseAppHealthChecks();
 app.UseIS4();
-SeedUserData.Execute(app.Services);
+
+var settings = Settings.Load<AdminSettings>("AdminAccount");
+SeedUserData.Execute(app.Services, settings);
 
 app.Run();
 

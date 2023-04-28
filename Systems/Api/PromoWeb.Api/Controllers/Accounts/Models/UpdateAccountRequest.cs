@@ -6,8 +6,19 @@ namespace PromoWeb.Api.Controllers.Accounts.Models
 {
 	public class UpdateAccountRequest
 	{
+		/// <summary>
+		/// User email
+		/// </summary>
 		public string Email { get; set; }
+
+		/// <summary>
+		/// User full name
+		/// </summary>
 		public string FullName { get; set; }
+
+		/// <summary>
+		/// Has admin role
+		/// </summary>
 		public bool isAdmin { get; set; }
 	}
 

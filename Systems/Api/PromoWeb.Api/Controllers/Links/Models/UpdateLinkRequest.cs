@@ -7,10 +7,20 @@ using PromoWeb.Services.Links;
 
 public class UpdateLinkRequest
 {
-    public string LinkText { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+	/// <summary>
+	/// Link
+	/// </summary>
+	public string LinkText { get; set; } = string.Empty;
 
-    public int SectionId { get; set; }
+	/// <summary>
+	/// Link description
+	/// </summary>
+	public string Description { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Section that the link will belong to
+	/// </summary>
+	public int SectionId { get; set; }
 }
 
 public class UpdateLinkRequestValidator : AbstractValidator<UpdateLinkRequest>

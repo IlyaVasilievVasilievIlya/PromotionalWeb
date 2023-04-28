@@ -21,15 +21,6 @@ namespace PromoWeb.Context
             {
                 switch (dbType)
                 {
-                    /*case DbType.MSSQL:
-                        bldr.UseSqlServer(connStr,
-                            opts => opts
-                                    .CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds)
-                                    .MigrationsHistoryTable("_EFMigrationsHistory", "public")
-                                    .MigrationsAssembly($"{migrationProjectPrefix}{DbType.MSSQL}")
-                            );
-                        break;*/
-
                     case DbType.PostgreSQL:
                         bldr.UseNpgsql(connStr,
                             opts => opts

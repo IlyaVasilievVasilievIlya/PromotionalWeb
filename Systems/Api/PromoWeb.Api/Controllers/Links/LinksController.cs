@@ -50,6 +50,11 @@ public class LinksController : ControllerBase
         return response;
     }
 
+	/// <summary>
+	/// Get links by section
+	/// </summary>
+    /// <param name="sectionId">Section Id</param>
+	/// <response code="200">List of LinkResponses</response>
 	[ProducesResponseType(typeof(IEnumerable<LinkResponse>), 200)]
 	[HttpGet("bySection/{sectionId}")]
 	public async Task<IEnumerable<LinkResponse>> GetLinksBySectionId([FromRoute] int sectionId)
@@ -61,9 +66,9 @@ public class LinksController : ControllerBase
 	}
 
 	/// <summary>
-	/// Get links by Id
+	/// Get link by Id
 	/// </summary>
-	/// <response code="200">LinkResponse></response>
+	/// <response code="200">LinkResponse</response>
 	[ProducesResponseType(typeof(LinkResponse), 200)]
     [HttpGet("{id}")]
     public async Task<LinkResponse> GetLinkById([FromRoute] int id)
@@ -74,7 +79,11 @@ public class LinksController : ControllerBase
         return response;
     }
 
-    [HttpPost("")]
+	/// <summary>
+	/// Add link
+	/// </summary>
+	/// <response code="200">LinkResponse></response>
+	[HttpPost("")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<LinkResponse> AddLink([FromBody] AddLinkRequest request)
     {
@@ -85,7 +94,12 @@ public class LinksController : ControllerBase
         return response;
     }
 
-    [HttpPut("{id}")]
+	/// <summary>
+	/// Update link
+	/// </summary>
+	/// <param name="id">Id of link to be updated</param>
+	/// <response code="200"></response>
+	[HttpPut("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> UpdateLink([FromRoute] int id, [FromBody] UpdateLinkRequest request)
     {
@@ -95,7 +109,12 @@ public class LinksController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
+	/// <summary>
+	/// Delete link
+	/// </summary>
+    /// <param name="id">Id of link to be deleted</param>
+	/// <response code="200"></response>
+	[HttpDelete("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> DeleteLink([FromRoute] int id)
     {

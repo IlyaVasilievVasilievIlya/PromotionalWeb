@@ -9,8 +9,6 @@ using PromoWeb.Common.Responses;
 using PromoWeb.Common.Security;
 using PromoWeb.Services.Images;
 
-//using Serilog;
-
 
 /// <summary>
 /// Images controller
@@ -56,9 +54,9 @@ public class ImagesController : ControllerBase
 	}
 
 	/// <summary>
-	/// Get images by Id
+	/// Get image by Id
 	/// </summary>
-	/// <response code="200">ImageResponse></response>
+	/// <response code="200">ImageResponse</response>
 	[ProducesResponseType(typeof(ImageResponse), 200)]
 	[HttpGet("{id}")]
 	public async Task<ImageResponse> GetImageById([FromRoute] int id)
@@ -69,6 +67,11 @@ public class ImagesController : ControllerBase
 		return response;
 	}
 
+	/// <summary>
+	/// Get images by appinfo
+	/// </summary>
+	/// <param name="appInfoId">Id of AppInfo</param>
+	/// <response code="200">List of ImageResponses</response>
 	[ProducesResponseType(typeof(IEnumerable<ImageResponse>), 200)]
 	[HttpGet("byAppInfo/{appInfoId}")]
 	public async Task<IEnumerable<ImageResponse>> GetImagesByAppInfoId(int appInfoId)
@@ -79,6 +82,10 @@ public class ImagesController : ControllerBase
 		return response;
 	}
 
+	/// <summary>
+	/// Add image
+	/// </summary>
+	/// <response code="200">ImageResponse</response>
 	[HttpPost("")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<ImageResponse> AddImage([FromForm] AddImageRequest request)
@@ -98,6 +105,11 @@ public class ImagesController : ControllerBase
 		return response;
 	}
 
+	/// <summary>
+	/// Update image
+	/// </summary>
+	/// <param name="id">Id of image to be updated</param>
+	/// <response code="200"></response>
 	[HttpPut("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> UpdateImage([FromRoute] int id, [FromForm] UpdateImageRequest request)
@@ -120,6 +132,11 @@ public class ImagesController : ControllerBase
 		return Ok();
 	}
 
+	/// <summary>
+	/// Delete image
+	/// </summary>
+	/// <param name="id">Id of image to be deleted</param>
+	/// <response code="200"></response>
 	[HttpDelete("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> DeleteImage([FromRoute] int id)

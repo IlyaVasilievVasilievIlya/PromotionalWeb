@@ -6,9 +6,24 @@ namespace PromoWeb.Api.Controllers.Accounts.Models
 {
     public class RegisterUserAccountRequest
     {
+        /// <summary>
+        /// User full name
+        /// </summary>
         public string Name { get; set; }
-        public string Email { get; set; }
+
+		/// <summary>
+		/// User email
+		/// </summary>
+		public string Email { get; set; }
+
+        /// <summary>
+        /// User password
+        /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Has admin role
+        /// </summary>
         public bool isAdmin { get; set; }
     }
 

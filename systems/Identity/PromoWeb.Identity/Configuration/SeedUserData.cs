@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PromoWeb.Common.Security;
 using PromoWeb.Context;
 using PromoWeb.Context.Entities;
 
@@ -11,38 +12,39 @@ namespace PromoWeb.Identity.Configuration
 		private static UserManager<User> User(IServiceProvider serviceProvider) => ServiceScope(serviceProvider).ServiceProvider.GetRequiredService<UserManager<User>>();
 		private static RoleManager<UserRole> UserRole(IServiceProvider serviceProvider) => ServiceScope(serviceProvider).ServiceProvider.GetRequiredService<RoleManager<UserRole>>();
 
-		public static void Execute(IServiceProvider serviceProvider)
+		public static void Execute(IServiceProvider serviceProvider, AdminSettings settings)
 		{
 			using var scope = ServiceScope(serviceProvider);
 			ArgumentNullException.ThrowIfNull(scope);
 
 			Task.Run(async () =>
 			{
-				await InitializeAdmin(User(serviceProvider), UserRole(serviceProvider));
+				await InitializeAdmin(User(serviceProvider), UserRole(serviceProvider), settings);
 			});
 
 		}
 
-			public static async Task InitializeAdmin(UserManager<User> userManager, RoleManager<UserRole> roleManager)
+			public static async Task InitializeAdmin(UserManager<User> userManager, RoleManager<UserRole> roleManager, AdminSettings settings)
 		{
+			
+			string adminEmail = settings.Email;
+			string password = settings.Password;
 
-			string adminEmail = "ilyavasilev56@gmail.com";
-			string password = "1234";
-			if (await roleManager.FindByNameAsync("admin") == null)
+			if (await roleManager.FindByNameAsync(Roles.Admin) == null)
 			{
-				await roleManager.CreateAsync(new UserRole("admin"));
+				await roleManager.CreateAsync(new UserRole(Roles.Admin));
 			}
-			if (await roleManager.FindByNameAsync("moderator") == null)
+			if (await roleManager.FindByNameAsync(Roles.Moderator) == null)
 			{
-				await roleManager.CreateAsync(new UserRole("moderator"));
+				await roleManager.CreateAsync(new UserRole(Roles.Moderator));
 			}
 			if (await userManager.FindByNameAsync(adminEmail) == null)
 			{
-				User admin = new User { Email = adminEmail, UserName = adminEmail, FullName = "unknown" };
+				User admin = new User { Email = adminEmail, UserName = adminEmail, FullName = settings.FullName };
 				IdentityResult result = await userManager.CreateAsync(admin, password);
 				if (result.Succeeded)
 				{
-					await userManager.AddToRoleAsync(admin, "admin");
+					await userManager.AddToRoleAsync(admin, Roles.Admin);
 				}
 			}
 		}

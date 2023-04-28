@@ -88,9 +88,10 @@ public class SectionService : ISectionService
     {
         using var context = await contextFactory.CreateDbContextAsync();
 
-        var section = await context.Sections.FirstOrDefaultAsync(x => x.Id.Equals(sectionId))
+        var section = await context.Sections.Include(x => x.AppInfos).Include(x => x.Links).FirstOrDefaultAsync(x => x.Id.Equals(sectionId))
             ?? throw new ProcessException($"The section (id: {sectionId}) was not found");
-
+        if (section.AppInfos.Count != 0 || section.Links.Count != 0)
+            throw new ProcessException($"The section (id : {sectionId}) contains app infos or links and cannot to be deleted");
         context.Remove(section);
         context.SaveChanges();
     }

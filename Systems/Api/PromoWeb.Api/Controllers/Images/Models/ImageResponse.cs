@@ -6,15 +6,35 @@ using PromoWeb.Services.Images;
 
 public class ImageResponse
 {
-    public int Id { get; set; }
+	/// <summary>
+	/// Image id
+	/// </summary>
+	public int Id { get; set; }
 
-    public string Description { get; set; } = string.Empty;
-    public string ImageName { get; set; } = string.Empty;
+	/// <summary>
+	/// Image name
+	/// </summary>
+	public string ImageName { get; set; } = string.Empty;
 
-    public string UniqueName { get; set; }
+	/// <summary>
+	/// Image description
+	/// </summary>
+	public string Description { get; set; } = string.Empty;
 
-    public int AppInfoId { get; set; }
-    public string AppInfo { get; set; } = string.Empty;
+	/// <summary>
+	/// Image file name for saving in FS
+	/// </summary>
+	public string UniqueName { get; set; }
+
+	/// <summary>
+	/// Info block that the photo belongs to
+	/// </summary>
+	public int AppInfoId { get; set; }
+
+	/// <summary>
+	/// Info block that the photo belongs to
+	/// </summary>
+	public string AppInfo { get; set; } = string.Empty;
 }
 
 public class ImageResponseProfile : Profile

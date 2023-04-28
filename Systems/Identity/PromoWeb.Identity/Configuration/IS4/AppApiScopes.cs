@@ -7,7 +7,6 @@ namespace PromoWeb.Identity.Configuration
 {
 	public static class AppApiScopes
 	{
-		//что запрашивается (какие права просит клиент)
 		public static IEnumerable<ApiScope> ApiScopes =>
 			new List<ApiScope>
 			{

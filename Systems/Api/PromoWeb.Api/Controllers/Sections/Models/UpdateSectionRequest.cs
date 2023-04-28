@@ -6,7 +6,10 @@ using PromoWeb.Services.Sections;
 
 public class UpdateSectionRequest
 {
-    public string SectionName { get; set; } = string.Empty;
+	/// <summary>
+	/// Section name
+	/// </summary>
+	public string SectionName { get; set; } = string.Empty;
 }
 
 public class UpdateSectionRequestValidator : AbstractValidator<UpdateSectionRequest>

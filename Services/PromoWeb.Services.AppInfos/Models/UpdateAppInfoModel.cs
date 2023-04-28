@@ -23,7 +23,10 @@ namespace PromoWeb.Services.AppInfos
             RuleFor(x => x.TextTitle)
                 .NotEmpty().WithMessage("Text Title is required.")
                 .MaximumLength(100).WithMessage("Text Title is too long.");
-        }
+
+			RuleFor(x => x.SectionId)
+	            .NotEmpty().WithMessage("Section id is required.");
+		}
     }
 
     public class UpdateAppInfoModelProfile : Profile

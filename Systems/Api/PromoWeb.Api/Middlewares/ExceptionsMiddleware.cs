@@ -35,7 +35,6 @@ namespace PromoWeb.Api.Middlewares
             {
                 if (response is not null)
                 {
-                    //context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(JsonSerializer.Serialize(response));
                     await context.Response.StartAsync();

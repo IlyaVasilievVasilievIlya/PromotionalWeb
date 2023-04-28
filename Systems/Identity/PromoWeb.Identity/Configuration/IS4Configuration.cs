@@ -8,8 +8,8 @@ namespace PromoWeb.Identity.Configuration
     {
         public static IServiceCollection AddIS4(this IServiceCollection services)
         {
-            services //addidentity добавить элемент по которому будет идентифицироваться пользователь
-                .AddIdentity<User, UserRole>(opt => //юзеру какому то какую то роль (таблица раскрытия многих ко многим (регистрация di для 
+            services
+                .AddIdentity<User, UserRole>(opt =>
                 {
                     opt.Password.RequiredLength = 0;
                     opt.Password.RequireDigit = false;
@@ -17,23 +17,23 @@ namespace PromoWeb.Identity.Configuration
                     opt.Password.RequireUppercase = false;
                     opt.Password.RequireNonAlphanumeric = false;
                 })
-                .AddEntityFrameworkStores<MainDbContext>() //хранение будет в бд
-                .AddUserManager<UserManager<User>>() //класс для работы с ними (как то связыватеся с контекстом базы (те уже доступен в di)
+                .AddEntityFrameworkStores<MainDbContext>()
+                .AddUserManager<UserManager<User>>()
                 .AddDefaultTokenProviders()
                 ;
 
             services
-                .AddIdentityServer() //это все уже от duende
+                .AddIdentityServer()
 
-                .AddAspNetIdentity<User>() //This is needed when IdentityServer must add claims for the users into tokens.
+                .AddAspNetIdentity<User>()
 
-                .AddInMemoryApiScopes(AppApiScopes.ApiScopes) //подгружаем скопы
-                .AddInMemoryClients(AppClients.Clients) //и клиентов
+                .AddInMemoryApiScopes(AppApiScopes.ApiScopes)
+                .AddInMemoryClients(AppClients.Clients)
 
-                .AddInMemoryApiResources(AppResources.Resources) //для сваггера доступ к API (apiresource это просто сборик скопов?
-                .AddInMemoryIdentityResources(AppIdentityResources.Resources) //подгружаем сведения о юзере (identity token)
+                .AddInMemoryApiResources(AppResources.Resources)
+                .AddInMemoryIdentityResources(AppIdentityResources.Resources)
 
-                // .AddTestUsers(AppApiTestUsers.ApiUsers) //юзеры в памяти
+                // .AddTestUsers(AppApiTestUsers.ApiUsers)
 
                 .AddDeveloperSigningCredential();
 

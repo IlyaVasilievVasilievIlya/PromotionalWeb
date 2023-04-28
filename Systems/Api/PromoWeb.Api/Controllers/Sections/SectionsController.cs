@@ -51,11 +51,11 @@ public class SectionsController : ControllerBase
         return response;
     }
 
-    /// <summary>
-    /// Get sections by Id
-    /// </summary>
-    /// <response code="200">SectionResponse></response>
-    [ProducesResponseType(typeof(SectionResponse), 200)]
+	/// <summary>
+	/// Get section by Id
+	/// </summary>
+	/// <response code="200">SectionResponse</response>
+	[ProducesResponseType(typeof(SectionResponse), 200)]
     [HttpGet("{id}")]
     public async Task<SectionResponse> GetSectionById([FromRoute] int id)
     {
@@ -65,7 +65,11 @@ public class SectionsController : ControllerBase
         return response;
     }
 
-    [HttpPost("")]
+	/// <summary>
+	/// Add section
+	/// </summary>
+	/// <response code="200">SectionResponse</response>
+	[HttpPost("")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<SectionResponse> AddSection([FromBody] AddSectionRequest request)
     {
@@ -76,7 +80,12 @@ public class SectionsController : ControllerBase
         return response;
     }
 
-    [HttpPut("{id}")]
+	/// <summary>
+	/// Update section
+	/// </summary>
+	/// <param name="id">Id of section to be updated</param>
+	/// <response code="200"></response>
+	[HttpPut("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> UpdateSection([FromRoute] int id, [FromBody] UpdateSectionRequest request)
     {
@@ -86,7 +95,12 @@ public class SectionsController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
+	/// <summary>
+	/// Delete section
+	/// </summary>
+	/// <param name="id">Id of section to be deleted</param>
+	/// <response code="200"></response>
+	[HttpDelete("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> DeleteSection([FromRoute] int id)
     {

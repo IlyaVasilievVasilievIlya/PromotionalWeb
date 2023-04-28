@@ -5,11 +5,30 @@ using PromoWeb.Context.Entities;
 
 public class AnswerResponse
 {
-    public int Id { get; set; }
-    public int QuestionId { get; set; }
-    public string Question { get; set; } = string.Empty;
-    public string Text { get; set; } = string.Empty;
-    public DateTime Date { get; set; }
+	/// <summary>
+	/// Answer id
+	/// </summary>
+	public int Id { get; set; }
+
+	/// <summary>
+	/// Question id
+	/// </summary>
+	public int QuestionId { get; set; }
+
+	/// <summary>
+	/// Question text
+	/// </summary>
+	public string Question { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Answer text
+	/// </summary>
+	public string Text { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Answer date
+	/// </summary>
+	public DateTime Date { get; set; }
 }
 
 public class AnswerResponseProfile : Profile

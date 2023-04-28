@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 @inject IConfigurationService configuration
+@attribute [Authorize]
 
 <MudThemeProvider @bind-IsDarkMode="@(_darkMode)" />
 <MudDialogProvider />

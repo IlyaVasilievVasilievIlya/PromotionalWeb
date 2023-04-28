@@ -30,7 +30,7 @@ namespace PromoWeb.Api.Configuration
              if (!swaggerSettings.Enabled)
                  return services;
 
-            services //добавление версий (v2/v1)
+            services
                 .AddOptions<SwaggerGenOptions>()
                 .Configure<IApiVersionDescriptionProvider>((options, provider) =>
                 {
@@ -46,13 +46,13 @@ namespace PromoWeb.Api.Configuration
 
             services.AddSwaggerGen(options =>
             {
-                /*options.SupportNonNullableReferenceTypes();
+                options.SupportNonNullableReferenceTypes();
 
                 options.UseInlineDefinitionsForEnums();
 
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-                options.DescribeAllParametersInCamelCase();*/
+                options.DescribeAllParametersInCamelCase();
 
                 var xmlFile = "api.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -130,17 +130,14 @@ namespace PromoWeb.Api.Configuration
             app.UseSwaggerUI(
                 options =>
                 {
-                    options.RoutePrefix = "api"; //показать апи по этому эндпоинту
-                    provider.ApiVersionDescriptions.ToList().ForEach( //ко всем итемам версиям
+                    options.RoutePrefix = "api";
+                    provider.ApiVersionDescriptions.ToList().ForEach(
                         description => options.SwaggerEndpoint($"/api/{description.GroupName}/api.yaml", description.GroupName.ToUpperInvariant())
                     );
 
-                    // options.DocExpansion(DocExpansion.List);
-                    //options.DefaultModelsExpandDepth(-1);
+                    options.DocExpansion(DocExpansion.List);
+                    options.DefaultModelsExpandDepth(-1);
                     options.OAuthAppName(AppTitle);
-
-                    /*options.OAuthClientId(swaggerSettings?.OAuthClientId ?? "");
-                    options.OAuthClientSecret(swaggerSettings?.OAuthClientSecret ?? "");*/
                 }
             );
         }

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using PromoWeb.Context.Entities;
 
 namespace PromoWeb.Services.UserAccount
 {

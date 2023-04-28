@@ -6,7 +6,7 @@ namespace PromoWeb.Identity.Configuration
 {
     public static class AppResources
     {
-        //что присоединяется к скопам запрошенным
+        //что присоединяется к скопам при запросе usersapi
         public static IEnumerable<ApiResource> Resources => new List<ApiResource>
         {
             new ApiResource("role", "role", new string[] { JwtClaimTypes.Role })

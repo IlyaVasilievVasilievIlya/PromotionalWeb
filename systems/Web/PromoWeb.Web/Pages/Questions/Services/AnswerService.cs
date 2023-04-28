@@ -12,6 +12,23 @@ namespace PromoWeb.Web
 			_httpClient = httpClient;
 		}
 
+		public async Task<IEnumerable<AnswerListItem>> GetAnswers(int offset = 0, int limit = 10)
+		{
+			string url = $"{Settings.ApiRoot}/v1/answers?offset={offset}&limit={limit}";
+
+			var response = await _httpClient.GetAsync(url);
+			var content = await response.Content.ReadAsStringAsync();
+
+			if (!response.IsSuccessStatusCode)
+			{
+				throw new Exception(content);
+			}
+
+			var data = JsonSerializer.Deserialize<IEnumerable<AnswerListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AnswerListItem>();
+
+			return data;
+		}
+
 		public async Task AddAnswer(AnswerModel model)
 		{
 			string url = $"{Settings.ApiRoot}/v1/answers";

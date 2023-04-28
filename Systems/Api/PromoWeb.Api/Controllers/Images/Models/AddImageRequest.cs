@@ -8,11 +8,25 @@ using PromoWeb.Common.Extensions;
 
 public class AddImageRequest
 {
+    /// <summary>
+    /// Image name
+    /// </summary>
     public string ImageName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Image description
+    /// </summary>
     public string Description { get; set; } = string.Empty;
 
-    public int AppInfoId { get; set; }
-    public IFormFile Image { get; set; }
+	/// <summary>
+	/// Info block that the photo will belong to
+	/// </summary>
+	public int AppInfoId { get; set; }
+
+	/// <summary>
+	/// Upload image file
+	/// </summary>
+	public IFormFile Image { get; set; }
 }
 
 public class AddImageRequestValidator : AbstractValidator<AddImageRequest>
@@ -39,7 +53,10 @@ public class AddImageRequestValidator : AbstractValidator<AddImageRequest>
             .Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
             .When(x => x.Image is not null)
             .WithMessage("Only images allowed");
-    }
+
+		RuleFor(x => x.AppInfoId)
+	        .NotEmpty().WithMessage("AppInfo id is required.");
+	}
 }
 
 public class AddImageRequestProfile : Profile

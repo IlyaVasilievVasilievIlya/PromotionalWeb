@@ -5,8 +5,11 @@ using FluentValidation;
 using PromoWeb.Services.Sections;
 
 public class AddSectionRequest
-{
-    public string SectionName { get; set; } = string.Empty;
+{  
+    /// <summary>
+	/// Section name
+	/// </summary>
+	public string SectionName { get; set; } = string.Empty;
 }
 
 public class AddSectionRequestValidator : AbstractValidator<AddSectionRequest>

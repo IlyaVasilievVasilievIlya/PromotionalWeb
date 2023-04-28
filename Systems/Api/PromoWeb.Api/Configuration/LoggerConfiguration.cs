@@ -14,8 +14,8 @@ namespace PromoWeb.Api.Configuration
         {
             var logger = new Serilog.LoggerConfiguration()
                 .Enrich.WithCorrelationIdHeader()
-                .Enrich.FromLogContext() //взять логи из запросов и ответов
-                .ReadFrom.Configuration(builder.Configuration) //пакет настроек (берет автоматически)
+                .Enrich.FromLogContext()
+                .ReadFrom.Configuration(builder.Configuration)
                 .CreateLogger();
 
             builder.Host.UseSerilog(logger, true);

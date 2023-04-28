@@ -7,8 +7,15 @@ using PromoWeb.Services.Questions;
 
 public class AddQuestionRequest
 {
-    public string Text { get; set; } = string.Empty;
-    public string? Email { get; set; }
+	/// <summary>
+    /// Question's text
+    /// </summary>
+	public string Text { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Send answer by email
+	/// </summary>
+	public string? Email { get; set; }
 }
 
 public class AddQuestionRequestValidator : AbstractValidator<AddQuestionRequest>

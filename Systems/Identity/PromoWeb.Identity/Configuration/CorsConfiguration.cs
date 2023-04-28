@@ -13,7 +13,6 @@ namespace PromoWeb.Identity.Configuration
         /// <param name="services">Services collection</param>
         public static IServiceCollection AddAppCors(this IServiceCollection services)
         {
-            //Icorspolicy маппится с ответом лямбда-функции (вернет defaultcorspolicy
             services.AddSingleton<ICorsPolicyService>((container) =>
             {
                 var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();

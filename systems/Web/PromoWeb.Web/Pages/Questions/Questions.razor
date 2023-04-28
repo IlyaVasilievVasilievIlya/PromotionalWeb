@@ -8,7 +8,7 @@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
-@*@attribute [Authorize]*@
+@attribute [Authorize]
 
 <MudText Typo="Typo.h4" Class="ma-8">Questions</MudText>
 
@@ -62,10 +62,12 @@
 	private string searchString = "";
 
 	private IEnumerable<QuestionListItem> QuestionListItems = new List<QuestionListItem>();
+	private IEnumerable<AnswerListItem> AnswerListItems = new List<AnswerListItem>();
 
 	private async Task ReloadData()
 	{
 		QuestionListItems = await questionService.GetQuestions();
+		AnswerListItems = await answerService.GetAnswers();
 	}
 
 	protected override async Task OnInitializedAsync()
@@ -150,6 +152,7 @@
 
 	private async Task DeleteAnswer(int questionId)
 	{
+		var answer = AnswerListItems.First(x => x.QuestionId == questionId);
 		var parameters = new DialogParameters();
 		parameters.Add("ContentText", "Do you really want to delete this answer? This process cannot be undone.");
 		parameters.Add("ButtonText", "Delete");
@@ -162,7 +165,7 @@
 
 		if (!result.Canceled)
 		{
-			await answerService.DeleteAnswer(questionId);
+			await answerService.DeleteAnswer(answer.Id);
 			await ReloadData();
 		}
 	}

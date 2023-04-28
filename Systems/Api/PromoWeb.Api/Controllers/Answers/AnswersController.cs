@@ -51,9 +51,9 @@ public class AnswersController : ControllerBase
     }
 
     /// <summary>
-    /// Get answers by Id
+    /// Get answer by Id
     /// </summary>
-    /// <response code="200">AnswerResponse></response>
+    /// <response code="200">AnswerResponse</response>
     [ProducesResponseType(typeof(AnswerResponse), 200)]
     [HttpGet("{id}")]
     public async Task<AnswerResponse> GetAnswerById([FromRoute] int id)
@@ -64,7 +64,12 @@ public class AnswersController : ControllerBase
         return response;
     }
 
-    [HttpPost("")]
+	/// <summary>
+	/// Add answer
+	/// </summary>
+    /// <param name="request">AddAnswerRequest object</param>
+	/// <response code="200">AnswerResponse</response>
+	[HttpPost("")]
     [Authorize(Policy = AppScopes.AppApi)]
     public async Task<AnswerResponse> AddAnswer([FromBody] AddAnswerRequest request)
     {
@@ -76,7 +81,12 @@ public class AnswersController : ControllerBase
         return response;
     }
 
-    [HttpDelete("{id}")]
+	/// <summary>
+	/// Delete answer
+	/// </summary>
+	/// <param name="id">Id of answer to be deleted</param>
+	/// <response code="200"></response>
+	[HttpDelete("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> DeleteAnswer([FromRoute] int id)
     {

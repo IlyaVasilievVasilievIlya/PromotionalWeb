@@ -51,10 +51,9 @@ namespace PromoWeb.Web
             await _localStorage.SetItemAsync("authToken", loginResult.AccessToken); 
             await _localStorage.SetItemAsync("refreshToken", loginResult.RefreshToken);
 
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email!); //для authorize аннотации
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email!);
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.AccessToken);// возвращает или устанавливает коллекцию заголовков по умолчанию,
-                                                                                                                               // которые отправляются на сервер при каждом запросе
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.AccessToken);
 
             return loginResult;
         }

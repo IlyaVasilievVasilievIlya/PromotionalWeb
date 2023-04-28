@@ -50,9 +50,9 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// Get contacts by Id
+    /// Get contact by Id
     /// </summary>
-    /// <response code="200">ContactResponse></response>
+    /// <response code="200">ContactResponse</response>
     [ProducesResponseType(typeof(ContactResponse), 200)]
     [HttpGet("{id}")]
     public async Task<ContactResponse> GetContactById([FromRoute] int id)
@@ -63,7 +63,11 @@ public class ContactsController : ControllerBase
         return response;
     }
 
-    [HttpPost("")]
+	/// <summary>
+	/// Add contact
+	/// </summary>
+	/// <response code="200">ContactResponses</response>
+	[HttpPost("")]
     [Authorize(Policy = AppScopes.AppApi)]
     public async Task<ContactResponse> AddContact([FromBody] AddContactRequest request)
     {
@@ -74,7 +78,12 @@ public class ContactsController : ControllerBase
         return response;
     }
 
-    [HttpPut("{id}")]
+	/// <summary>
+	/// Update contact
+	/// </summary>
+	/// <param name="id">Id of contact to be updated</param>
+	/// <response code="200"></response>
+	[HttpPut("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> UpdateContact([FromRoute] int id, [FromBody] UpdateContactRequest request)
     {
@@ -84,7 +93,12 @@ public class ContactsController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
+	/// <summary>
+	/// Delete contact
+	/// </summary>
+	/// <param name="id">Id of contact to be deleted</param>
+	/// <response code="200"></response>
+	[HttpDelete("{id}")]
 	[Authorize(Policy = AppScopes.AppApi)]
 	public async Task<IActionResult> DeleteContact([FromRoute] int id)
     {

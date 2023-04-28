@@ -6,8 +6,19 @@ namespace PromoWeb.Api.Controllers.Accounts.Models
 {
 	public class ResetPasswordRequest
 	{
+		/// <summary>
+		/// User email
+		/// </summary>
 		public string Email { get; set; }
+
+		/// <summary>
+		/// New password
+		/// </summary>
 		public string Password { get; set; }
+
+		/// <summary>
+		/// Password recovery secret code
+		/// </summary>
 		public string Code { get; set; }
 	}
 
