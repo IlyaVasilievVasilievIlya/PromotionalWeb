@@ -1,3 +1,9 @@
+При запуске через compose up БД может долго запускаться в первый раз, поэтому возможно придется перезапустить api и identity контейнеры
+Регистрации нет, данные для входа для админа
+- email/username: promoWebtest@mail.ru 
+- password: 1234
+- client_id: frontend
+- client_secret: secret
 
 ### Тема:
 
