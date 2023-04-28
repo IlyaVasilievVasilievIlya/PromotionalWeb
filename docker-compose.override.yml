@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - shared_promowebapi_net
+      - shared_promoweb_net
     volumes:      
       - ~/.docker-conf/postgresql/data/:/var/lib/postgresql/data
 
@@ -19,7 +19,7 @@ services:
       - "5673:5673"
       - "15672:15672"
     networks:
-      - shared_promowebapi_net
+      - shared_promoweb_net
     volumes:      
       - ./rabbitmq:/var/lib/rabbitmq
 
@@ -27,7 +27,7 @@ services:
     ports:
       - "10000:80"
     networks:
-      - shared_promowebapi_net
+      - shared_promoweb_net
     env_file:
       - env.api
 
@@ -35,17 +35,23 @@ services:
     ports:
       - "10001:80"
     networks:
-      - shared_promowebapi_net
+      - shared_promoweb_net
     env_file:
       - env.identity
 
   promoweb_worker:
     networks:
-      - shared_promowebapi_net
+      - shared_promoweb_net
     env_file:
       - env.worker
 
+  promoweb_web:
+    ports:
+      - "10002:80"
+    networks:
+      - shared_promoweb_net
+
 networks:
-  shared_promowebapi_net:
+  shared_promoweb_net:
     name: promo_web
     driver: bridge

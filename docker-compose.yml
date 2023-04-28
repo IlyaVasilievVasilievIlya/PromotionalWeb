@@ -36,3 +36,13 @@ services:
       - promoweb_postgresql
       - promoweb_api
       - promoweb_rabbitmq
+
+  promoweb_web:
+    image: ${DOCKER_REGISTRY-}promowebweb
+    build:
+      context: .
+      dockerfile: Systems/Web/PromoWeb.Web/Dockerfile
+    depends_on:
+      - promoweb_postgresql
+      - promoweb_api
+      - promoweb_rabbitmq
